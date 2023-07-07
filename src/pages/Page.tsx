@@ -4,16 +4,15 @@ import Home from "./Home"
 import Channel from "./Channel"
 import Login from "./Login"
 import Profile from "./Profile"
-import { IUser } from "../type/userType"
 import PlayLists from "../components/PlayLists"
 import Charts from "../components/Charts"
-import PlayVideo from "../components/PlayVideo"
 import Artist from "../artist/Artist"
 import Album from "../album/Album"
 import LiveClip from "../components/LiveClip"
 import Cover from "../components/Cover"
 import DailyCharts from "src/components/DailyCharts"
 import { IUserObj } from "src/type/userObjProps"
+import SelectedVideos from "../components/SelectedVideos"
 
 
 const Page:React.FC<IUserObj> = ({userObj ,refreshUser}) =>{
@@ -26,7 +25,7 @@ const Page:React.FC<IUserObj> = ({userObj ,refreshUser}) =>{
             <Route path='/playlist' element={<PlayLists/>}/>
             <Route path='/charts' element={<Charts/>}/>
             <Route path='/cover' element={<Cover/>}/>
-            <Route path='/mylist' element={<PlayVideo/>}/>
+            <Route path='/mylist' element={<SelectedVideos/>}/>
             <Route path='/liveclip' element={<LiveClip/>}/>
             <Route path='/artist' element={<DailyCharts/>}/>
             <Route path='/album' element={<Album/>}/>

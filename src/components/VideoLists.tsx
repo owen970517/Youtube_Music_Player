@@ -3,46 +3,44 @@ import {useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { IVideo } from '../type/videoProps'
 import VideoItem from './VideoItem'
-import { AppDispatch } from 'src/store/store'
+import { AppDispatch, RootState } from 'src/store/store'
 import { playlistActions } from 'src/store/playlistSlice'
+import { videoActions } from 'src/store/videoSlice'
 
 const VideoLists = () => {
-  const dispatch = useDispatch<AppDispatch>()
-  const [name,setName] = useState('')
+  const dispatch = useDispatch<AppDispatch>();
+  const [name, setName] = useState('');
   const listsRef = useRef<HTMLUListElement>(null);
-  const {allVideos} = useSelector((state:any) => state.playlist)
-  const changeName = useCallback((value:string) => {
-    setName(value)
-    if (listsRef.current) {
-      listsRef.current.scrollTo(0, 0);
+  const {allVideos,filteredVideos}  = useSelector((state:RootState) => state.playlist);
+  const handleFilterClick = (value: string) => {
+    setName(value);
+    dispatch(videoActions.currentIndex(0))
+    const filtered = allVideos.filter((v: IVideo) =>
+      v?.snippet.title.includes(value)
+    );
+    dispatch(playlistActions.setFilteredVideos(filtered));
+    if (listsRef.current) { 
+      listsRef.current.scrollTo(0, 0); 
     }
-  },[])
-  // const filteredVideo = name ? allVideos?.filter((v: any) => v?.snippet?.title.includes(name)) : allVideos;
-  // useEffect(() => {
-  //   dispatch(playlistActions.setAllVideos(filteredVideo))
-  // },[dispatch, filteredVideo])
-  
+  };
+
   return (
     <Wrapper>
       <Title>Playlist</Title>
       <FilterBtn>
-        <button onClick={() =>changeName('') }>전체</button>
-        <button onClick={() =>changeName('고여름') }>고여름</button>
-        <button onClick={() =>changeName('바밍') }>바밍</button>
-        <button onClick={() =>changeName('베베리') }>베베리</button>
-        <button onClick={() =>changeName('블러비') }>블러비</button>
+        <button onClick={() => handleFilterClick('')}>전체</button>
+        <button onClick={() => handleFilterClick('고여름')}>고여름</button>
+        <button onClick={() => handleFilterClick('바밍')}>바밍</button>
+        <button onClick={() => handleFilterClick('베베리')}>베베리</button>
+        <button onClick={() => handleFilterClick('블러비')}>블러비</button>
       </FilterBtn>
       <Lists ref={listsRef}>
-        {allVideos?.map((video:IVideo,index:number) => (
-          <VideoItem
-            video={video}
-            idx ={index}
-            key={video.id}
-          />
-      ))}
+        {filteredVideos?.map((video: IVideo, index: number) => (
+          <VideoItem video={video} idx={index} key={video.id} />
+        ))}
       </Lists>
     </Wrapper>
-  )
+  );
 }
 const Title = styled.h1`
   margin-left:10px;

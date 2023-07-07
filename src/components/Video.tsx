@@ -19,11 +19,12 @@ import dayjs from 'dayjs'
 const Video = () => {
   const dispatch = useDispatch()
   const {isPlaying,isMuted,volume,isLoop,isRandom,elapsedTime,duration} = useSelector((state:RootState) => state.video)
-  const {allVideos } = useSelector((state:any) => state.playlist)
+  const {allVideos,filteredVideos } = useSelector((state:RootState) => state.playlist)
   const [isHovered, setIsHovered] = useState(false);
-  const videoIndex = useSelector((state:any) => state.video.index)
+  const videoIndex = useSelector((state:RootState) => state.video.index)
   const videoRef = useRef<ReactPlayer>(null)
-  const totalTime = videoRef && videoRef.current ? videoRef.current.getDuration() : 0
+  const totalTime = videoRef?.current?.getDuration() || 0
+
   const togglePlaying = () => {
     dispatch(videoActions.setIsPlaying())
   }
@@ -38,14 +39,13 @@ const Video = () => {
     dispatch(videoActions.setVolume(newValue))
   }
   const handleNextVideo = () => {
-    if (videoIndex === allVideos.length -1 ) {
+    if (videoIndex === filteredVideos.length -1 ) {
       dispatch(videoActions.currentIndex(0))
     } else if (isRandom) {
-      let randomIndex = Math.floor(Math.random() * allVideos.length)
+      let randomIndex = Math.floor(Math.random() * filteredVideos.length)
       dispatch(videoActions.currentIndex(randomIndex))
-    } else {
-      dispatch(videoActions.currentIndex(videoIndex+1))
-    }
+    } 
+    dispatch(videoActions.currentIndex(videoIndex+1))
   }
   const handlePrevVideo = () => {
     if (videoIndex > 0) {
@@ -84,15 +84,16 @@ const Video = () => {
     return `0${minute}:${seconds < 10 ? `0${seconds}` : seconds}`; 
   }
   useEffect(() => {
-    dispatch(videoActions.setDuration(formDuration(allVideos[videoIndex]?.contentDetails?.duration)))
-  },[duration, videoIndex, allVideos, dispatch])
+    dispatch(videoActions.setDuration(formDuration(filteredVideos[videoIndex]?.contentDetails?.duration)))
+  },[duration, videoIndex, filteredVideos, dispatch])
   let nowTime = formatElapsed(elapsedTime)
+
   return (
     <Detail>
-      <Thumbnails src={allVideos[videoIndex]?.snippet?.thumbnails?.medium?.url} alt='thumbnails'/>
+      <Thumbnails src={filteredVideos[videoIndex]?.snippet?.thumbnails?.medium?.url} alt='thumbnails'/>
       <ReactPlayer 
         ref={videoRef}
-        url={`https://www.youtube-nocookie.com/embed/${allVideos[videoIndex]?.id}`} 
+        url={`https://www.youtube-nocookie.com/embed/${filteredVideos[videoIndex]?.id}`} 
         volume={volume}
         loop={isLoop}
         muted={isMuted}
@@ -100,6 +101,16 @@ const Video = () => {
         onProgress = {(progress) => dispatch(videoActions.setElapsedTime(progress.playedSeconds))}
         onEnded ={handleNextVideo}
         style={{display : 'none'}}
+        config={{
+          youtube: {
+            embedOptions: {
+              host: "https://www.youtube-nocookie.com",
+            },
+            playerVars: {
+              origin: window.location.origin,
+            },
+          },
+        }}
         />
       <Info>
         {/* <Title>{allVideos[videoIndex]?.snippet?.title}</Title> */}

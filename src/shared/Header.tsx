@@ -35,6 +35,9 @@ function Header({isLogin , userObj}:IUser) {
         <Link to='/album' style={{marginRight : '50px'}}>
           <Font className={isActive('/album')}>ALBUM</Font>
         </Link>
+        <Link to='/playlist' style={{marginRight : '50px'}}>
+          <Font className={isActive('/playlist')}>PLAYLIST</Font>
+        </Link>
       </Tab>
     </HeaderDiv>
   );

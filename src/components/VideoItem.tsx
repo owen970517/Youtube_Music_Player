@@ -7,19 +7,19 @@ import { IVideo } from '../type/videoProps';
 const VideoItem =   ({video , idx} : {video : IVideo,idx:number}) => {
     const dispatch = useDispatch()
     const {wantedVideo,selectedVideo} = useSelector((state:any) => state.video)
-    const {allVideos} = useSelector((state:any) => state.playlist)
+    const {allVideos,selectedVideos,filteredVideos} = useSelector((state:any) => state.playlist)
     const onClick = useCallback(() => {
       dispatch(videoActions.currentIndex(idx))
     }, [dispatch, idx]);
-    const onCheckBtn = (e:React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.checked) {
-        dispatch(videoActions.setWantedVideo({check : e.target.checked , video}))
-      } else {
-        dispatch(videoActions.setRemoveVideo({check : e.target.checked , video}))
-      }
-    }
+    // const onCheckBtn = (e:React.ChangeEvent<HTMLInputElement>) => {
+    //   if (e.target.checked) {
+    //     dispatch(videoActions.setWantedVideo({check : e.target.checked , video}))
+    //   } else {
+    //     dispatch(videoActions.setRemoveVideo({check : e.target.checked , video}))
+    //   }
+    // }
     const isActive = (idx:number) => {
-      return selectedVideo?.id === allVideos[idx]?.id ? 'active' : ''
+      return selectedVideo?.id === filteredVideos[idx]?.id ? 'active' : ''
     };
     return (
       <Container onClick={onClick}>
@@ -29,7 +29,7 @@ const VideoItem =   ({video , idx} : {video : IVideo,idx:number}) => {
             alt="video thumbnail"
           /> */}
           <MetaDiv>
-            <input type='checkbox' onChange={onCheckBtn} checked={wantedVideo?.map((video:any) => video?.id).includes(video?.id) ? true : false}/>
+            {/* <input type='checkbox' onChange={onCheckBtn} checked={wantedVideo?.map((video:any) => video?.id).includes(video?.id) ? true : false}/> */}
             <Title>{video.snippet.title}</Title>
             {/* <Channel>{video.snippet.channelTitle}</Channel> */}
             <h5>{video.statistics.viewCount}회</h5>

@@ -46,32 +46,32 @@ export const StyledSlider = styled(Slider)`
   } */
 `;
 const Latest = () => {
-    const settings = {
-      arrows:false,
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 5,
-      slidesToScroll: 5,
-      lazyload : true,
-      autoplay: true,
-      autoplaySpeed: 10000,
-    };
-    const slickRef = useRef<Slider>(null);
-    const prev = useCallback(() => slickRef?.current?.slickPrev(), []);
-    const next = useCallback(() => slickRef?.current?.slickNext() , []);
-    const dispatch = useDispatch<AppDispatch>()
-    const {allVideos,latestData} = useSelector((state:any) => state.playlist)
-    useEffect(() => {
-        let arr = [...allVideos]
-        const sorted_list = arr.sort((a:IVideo, b:IVideo) => 
-		    new Date(b.snippet.publishedAt).getTime() - new Date(a.snippet.publishedAt).getTime()
-	    );
-        dispatch(playlistActions.setLatestData(sorted_list.slice(0,10)))
-    },[allVideos, dispatch])
+  const settings = {
+    arrows:false,
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    lazyload : true,
+    autoplay: true,
+    autoplaySpeed: 10000,
+  };
+  const slickRef = useRef<Slider>(null);
+  const prev = useCallback(() => slickRef?.current?.slickPrev(), []);
+  const next = useCallback(() => slickRef?.current?.slickNext() , []);
+  const dispatch = useDispatch<AppDispatch>()
+  const {allVideos,latestData} = useSelector((state:any) => state.playlist)
+  useEffect(() => {
+      let arr = [...allVideos]
+      const sorted_list = arr.sort((a:IVideo, b:IVideo) => 
+      new Date(b.snippet.publishedAt).getTime() - new Date(a.snippet.publishedAt).getTime()
+    );
+    dispatch(playlistActions.setLatestData(sorted_list.slice(0,10)))
+  },[allVideos, dispatch])
   return (
     <>
-      { allVideos &&   
+      {allVideos &&   
         <Wrapper>
           <Head>
             <h1>New Realeases</h1>

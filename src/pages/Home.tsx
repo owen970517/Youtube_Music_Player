@@ -37,6 +37,7 @@ function Home() {
       list.sort((a:IVideo,b:IVideo) => parseInt(b.statistics.viewCount)-parseInt(a.statistics.viewCount))  
     }
     dispatch(playlistActions.setAllVideos(list))
+    dispatch(playlistActions.setFilteredVideos(list))
   },[coverVideo, dispatch, liveClips])
   return (
     <Main>

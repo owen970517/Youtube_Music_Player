@@ -11,7 +11,7 @@ import VideoLists from './VideoLists'
 
 const LiveClip = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const {liveClips,clipData,allVideos} = useSelector((state:any) => state.playlist)
+  const {liveClips,clipData,allVideos,filteredVideos} = useSelector((state:any) => state.playlist)
   const {wantedVideo } = useSelector((state:any) => state.video)
   const selectedVideo = useSelector((state:any) => state.video.selectedVideo)
   const videoIndex = useSelector((state:any)=>state.video.index)
@@ -32,26 +32,24 @@ const LiveClip = () => {
     dispatch(videoActions.currentIndex(0))
     dispatch(playlistActions.setSelectedVideos(wantedVideo))
   }
+  useEffect(() => {
+    dispatch(videoActions.currentIndex(0))
+  },[])
   useEffect(()=> {
-    dispatch(videoActions.currentIndex(''))
     dispatch(getLiveClip())
     dispatch(getLiveClipInfo(liveCliplistId))
     if (liveClips) {
-      dispatch(videoActions.setSelectedVideo(liveClips[videoIndex]))
-      dispatch(playlistActions.setSelectedVideos(liveClips))
+      dispatch(playlistActions.setFilteredVideos(liveClips))
+      dispatch(videoActions.setSelectedVideo(filteredVideos[videoIndex]))
     }
-  },[dispatch, liveCliplistId, liveClips, videoIndex])
+  },[dispatch, liveCliplistId, videoIndex])
 
   return (
     <App>
-      <Link to='/playlist' onClick={onAllClick}><button>전체 재생</button></Link>
-      {wantedVideo.length > 0 ? <Link to='/mylist' onClick={onClick}><button>내 목록 {wantedVideo.length}</button></Link> : ''}
       <Content>
-        {selectedVideo && (
-          <Detail>
-            <Video/>
-          </Detail>
-        )}
+        <Detail>
+          <Video/>
+        </Detail>
         <List>
           <VideoLists/>
         </List>

@@ -4,10 +4,11 @@ import styled, { css, keyframes } from 'styled-components'
 import { IVideo } from '../type/videoProps'
 import dayjs from "dayjs"; 
 import duration from 'dayjs/plugin/duration'
+import { RootState } from 'src/store/store';
 dayjs.extend(duration)
 
 const Weekly = () => {
-  const {liveClips,coverVideo} = useSelector((state:any) => state.playlist)
+  const {liveClips,coverVideo} = useSelector((state:RootState) => state.playlist)
   const textRef = useRef<HTMLParagraphElement>(null)
   const isHide = textRef.current?.offsetWidth !== undefined && textRef.current?.offsetWidth < textRef.current?.scrollWidth;
   const formDuration = (value:string) => {
@@ -69,7 +70,7 @@ const Weekly = () => {
 }
 
 const Wrapper = styled.div`
-  width: 80%;
+  width: 82%;
   display: flex;
   justify-content:center;
   margin: 0 auto;
@@ -95,6 +96,7 @@ const List = styled.div`
 const Lists = styled.ul`
   width: 100%;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   list-style: none;
   padding-left: 0;
@@ -105,7 +107,7 @@ const ListsHeader = styled.div`
   justify-content: space-around;
 `
 const Video = styled.div`
-  width : 100%;
+  width : 95%;
   display: flex;
   justify-content: space-around;
   align-items: center;
