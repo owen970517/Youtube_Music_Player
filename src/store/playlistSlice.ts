@@ -9,18 +9,16 @@ const friaplaylistId = 'PLR2_QUSqS6X2FxXxOwq3uBRGj6luUoWBk'
 
 
 export const getFriaPlaylists = createAsyncThunk('get/friaPlaylists',
-    async () => {
+    async (_, { rejectWithValue }) => {
         try {
-            const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistFria}&maxResults=10000&key=${API_KEY}`)
+            const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistFria}&maxResults=10000&key=${API_KEY}`;
+            const res = await fetch(url);
             const data = await res.json();
-            return data.items
-        } catch(err:any) {
-            let error = err
-            if (!error.response ) {
-                throw err?.response?.data
-            }
+            return data.items;
+          } catch (err) {
+            return rejectWithValue('Failed to fetch Fria playlists.'); // 오류 메시지 반환
+          }
         }
-    }
 )
 export const getFriaPlaylistInfo = createAsyncThunk('get/playlistsInfo' ,
     async (idLists:string ) => {

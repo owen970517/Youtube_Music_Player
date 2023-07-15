@@ -4,15 +4,15 @@ import Home from "./Home"
 import Channel from "./Channel"
 import Login from "./Login"
 import Profile from "./Profile"
-import PlayLists from "../components/PlayLists"
 import Charts from "../components/Charts"
 import Artist from "../artist/Artist"
 import Album from "../album/Album"
-import LiveClip from "../components/LiveClip"
-import Cover from "../components/Cover"
+import LiveClip from "../components/playlists/LiveClip"
 import DailyCharts from "src/components/DailyCharts"
 import { IUserObj } from "src/type/userObjProps"
-import SelectedVideos from "../components/SelectedVideos"
+import SelectedVideos from "../components/musics/SelectedMusics"
+import PlayLists from "src/components/playlists/PlayLists"
+import CoverPlaylists from "src/components/playlists/CoverPlaylists"
 
 
 const Page:React.FC<IUserObj> = ({userObj ,refreshUser}) =>{
@@ -24,7 +24,7 @@ const Page:React.FC<IUserObj> = ({userObj ,refreshUser}) =>{
             <Route path="/profile" element={<Profile userObj={userObj} refreshUser={refreshUser}/>}/>
             <Route path='/playlist' element={<PlayLists/>}/>
             <Route path='/charts' element={<Charts/>}/>
-            <Route path='/cover' element={<Cover/>}/>
+            <Route path='/cover' element={<CoverPlaylists/>}/>
             <Route path='/mylist' element={<SelectedVideos/>}/>
             <Route path='/liveclip' element={<LiveClip/>}/>
             <Route path='/artist' element={<DailyCharts/>}/>

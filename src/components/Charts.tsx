@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
 import {  playlistActions } from '../store/playlistSlice'
-import { AppDispatch } from '../store/store'
+import { AppDispatch, RootState } from '../store/store'
 import { videoActions } from '../store/videoSlice'
-import VideoLists from './VideoLists'
 import DailyCharts from './DailyCharts'
 import WeeklyChart from './WeeklyChart'
 import { IVideo } from 'src/type/videoProps'
@@ -13,8 +12,8 @@ import dayjs from 'dayjs'
 
 const Charts = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const {wantedVideo } = useSelector((state:any) => state.video)
-  const {liveClips,coverVideo,allVideos,sort} = useSelector((state:any) => state.playlist)
+  const {wantedVideo } = useSelector((state:RootState) => state.video)
+  const {liveClips,coverVideo,allVideos,sort} = useSelector((state:RootState) => state.playlist)
   const textRef = useRef<HTMLParagraphElement>(null)
   const isHide = textRef.current?.offsetWidth !== undefined && textRef.current?.offsetWidth < textRef.current?.scrollWidth;
   const formDuration = (value:string) => {
@@ -26,31 +25,34 @@ const Charts = () => {
   useEffect(() => {
     dispatch(playlistActions.setAllVideos([ ...coverVideo , ...liveClips]))
   },[coverVideo, dispatch, liveClips])
-  const onClick = () => {
+  const handlePlaylistClick = () => {
     dispatch(videoActions.currentIndex(0))
     dispatch(playlistActions.setFilteredVideos(wantedVideo))
   }
-  const onAllClick = () => {
+  const handleAllClick = () => {
     dispatch(videoActions.currentIndex(0))
     dispatch(playlistActions.setFilteredVideos(allVideos))
   }
+  const handleCheckBtn = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+      if (e.target.checked) {
+        dispatch(videoActions.setWantedVideo({ check: e.target.checked, video: allVideos[index] }));
+      } else {
+        dispatch(videoActions.setRemoveVideo({ check: e.target.checked, video: allVideos[index] }));
+      }
+    },
+    [dispatch, allVideos]
+  );
   const onSortedBtn = useCallback(() => {
     const nowSortType = sort === '누적순' ? '일간순' : '누적순';
     dispatch(playlistActions.setSorted(nowSortType))
   },[dispatch, sort])
-  const onCheckBtn = (e:React.ChangeEvent<HTMLInputElement> , index:number) => {
-    if (e.target.checked) {
-      dispatch(videoActions.setWantedVideo({check : e.target.checked, video :allVideos[index]}))
-    } else {
-      dispatch(videoActions.setRemoveVideo({check : e.target.checked, video :allVideos[index] }))
-    }
-  }
   return (
     <>
-      <Link to='/playlist' onClick={onAllClick}><button>전체 재생</button></Link>
+      <Link to='/playlist' onClick={handleAllClick}><button>전체 재생</button></Link>
       <button onClick={onSortedBtn}>일간</button>
       <button onClick={onSortedBtn}>누적</button>
-      {wantedVideo.length > 0 ? <Link to='/mylist' onClick={onClick}><button>내 목록 {wantedVideo.length}</button></Link> : ''}
+      {wantedVideo.length > 0 ? <Link to='/mylist' onClick={handlePlaylistClick}><button>내 목록 {wantedVideo.length}</button></Link> : ''}
       <Content>
         {/* <ChartList>
           {sort ==='누적순' && <VideoLists/>}
@@ -69,7 +71,7 @@ const Charts = () => {
               {allVideos?.map((video:IVideo,index:number) => {
                   return ( 
                   <Video key={video.etag}>
-                    <input type='checkbox' onChange={(e) => onCheckBtn(e,index)} checked={wantedVideo?.map((video:any) => video?.id).includes(video?.id) ? true : false}/>
+                    <input type='checkbox' onChange={(e) => handleCheckBtn(e,index)} checked={wantedVideo?.map((video:any) => video?.id).includes(video?.id) ? true : false}/>
                     {index+1 < 10 ? `0${index+1}` : `${index+1}`}
                     <Thumnail src={video?.snippet?.thumbnails?.medium.url} alt="video thumbnail"/>
                     <Title isHide={isHide}>
@@ -88,14 +90,7 @@ const Charts = () => {
     </>
   )
 }
-const App = styled.div`
-  width: 50%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
+
 const Content = styled.section`
   width: 100%;
   height : 500px;

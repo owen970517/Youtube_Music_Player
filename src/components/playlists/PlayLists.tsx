@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { videoActions } from '../store/videoSlice';
-import Video from './Video'
-import VideoLists from './VideoLists'
-import { AppDispatch, RootState } from '../store/store';
-import '../components/Playlist.css'
+import { videoActions } from '../../store/videoSlice';
+import { AppDispatch, RootState } from '../../store/store';
+import './Playlist.css'
+import Music from 'src/components/musics/Music';
+import MusicLists from 'src/components/musics/MusicLists';
+
 
 const PlayLists = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -18,8 +19,8 @@ const PlayLists = () => {
   },[filteredVideos, dispatch, index])
   return (
     <div className='image-bg'>
-      <Video />
-      <VideoLists />
+      <Music />
+      <MusicLists />
     </div>
   )
 }

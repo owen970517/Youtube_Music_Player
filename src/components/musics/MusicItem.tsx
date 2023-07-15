@@ -1,23 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import styled from 'styled-components';
-import { videoActions } from '../store/videoSlice';
-import { IVideo } from '../type/videoProps';
+import { IVideo } from 'src/type/videoProps';
+import { videoActions } from 'src/store/videoSlice';
 
-const VideoItem =   ({video , idx} : {video : IVideo,idx:number}) => {
+
+const MusicItem =   ({video , idx} : {video : IVideo,idx:number}) => {
     const dispatch = useDispatch()
     const {wantedVideo,selectedVideo} = useSelector((state:any) => state.video)
     const {allVideos,selectedVideos,filteredVideos} = useSelector((state:any) => state.playlist)
     const onClick = useCallback(() => {
       dispatch(videoActions.currentIndex(idx))
     }, [dispatch, idx]);
-    // const onCheckBtn = (e:React.ChangeEvent<HTMLInputElement>) => {
-    //   if (e.target.checked) {
-    //     dispatch(videoActions.setWantedVideo({check : e.target.checked , video}))
-    //   } else {
-    //     dispatch(videoActions.setRemoveVideo({check : e.target.checked , video}))
-    //   }
-    // }
+    const onCheckBtn = (e:React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.checked) {
+        dispatch(videoActions.setWantedVideo({check : e.target.checked , video}))
+      } else {
+        dispatch(videoActions.setRemoveVideo({check : e.target.checked , video}))
+      }
+    }
     const isActive = (idx:number) => {
       return selectedVideo?.id === filteredVideos[idx]?.id ? 'active' : ''
     };
@@ -29,9 +30,8 @@ const VideoItem =   ({video , idx} : {video : IVideo,idx:number}) => {
             alt="video thumbnail"
           /> */}
           <MetaDiv>
-            {/* <input type='checkbox' onChange={onCheckBtn} checked={wantedVideo?.map((video:any) => video?.id).includes(video?.id) ? true : false}/> */}
+            <input type='checkbox' onChange={onCheckBtn} checked={wantedVideo?.map((video:any) => video?.id).includes(video?.id) ? true : false}/>
             <Title>{video.snippet.title}</Title>
-            {/* <Channel>{video.snippet.channelTitle}</Channel> */}
             <h5>{video.statistics.viewCount}회</h5>
           </MetaDiv>
         </Video>
@@ -72,4 +72,4 @@ const Title = styled.p`
   text-overflow: ellipsis;
   white-space: nowrap;
 `
-export default VideoItem
+export default MusicItem

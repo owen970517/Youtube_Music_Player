@@ -2,31 +2,24 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { getFriaPlaylistInfo, getFriaPlaylists, playlistActions } from '../store/playlistSlice'
-import { AppDispatch, RootState } from '../store/store'
-import { videoActions } from '../store/videoSlice'
-import { IVideo } from '../type/videoProps'
-import Video from './Video'
-import VideoLists from './VideoLists'
+import { getFriaPlaylistInfo, getFriaPlaylists, playlistActions } from '../../store/playlistSlice'
+import { AppDispatch, RootState } from '../../store/store'
+import { videoActions } from '../../store/videoSlice'
+import { IVideo } from '../../type/videoProps'
+import Music from 'src/components/musics/Music'
+import MusicLists from 'src/components/musics/MusicLists'
 
-const Cover = () => {
+const CoverPlaylists = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const {coverVideo,allData,allVideos,filteredVideos} = useSelector((state:RootState) => state.playlist)
-  const {wantedVideo } = useSelector((state:any) => state.video)
-  const selectedVideo = useSelector((state:any) => state.video.selectedVideo)
-  const videoIndex = useSelector((state:any)=>state.video.index)
+  const {coverVideo,allData,filteredVideos} = useSelector((state:RootState) => state.playlist)
+  const {wantedVideo } = useSelector((state:RootState) => state.video)
+  const videoIndex = useSelector((state:RootState)=>state.video.index)
   const formatIdString = (list:IVideo[]) => {
-    let videoIdList:string[] = []
-    list?.map((x) => (
-          videoIdList?.push("&id=" + x.snippet.resourceId.videoId)
-        ));
-    let videoIdString = videoIdList?.join("");
-    return videoIdString
+    return list?.map((x) => "&id=" + x.snippet.resourceId.videoId).join("");
   }
-  const friaPlaylistId = formatIdString(allData!)
+  const friaPlaylistId = formatIdString(allData)
   const onClick = () => {
     dispatch(videoActions.currentIndex(0))
-    dispatch(playlistActions.setSelectedVideos(wantedVideo))
   }
   useEffect(() => {
     dispatch(videoActions.currentIndex(0))
@@ -44,10 +37,10 @@ const Cover = () => {
       {wantedVideo.length > 0 ? <Link to='/mylist' onClick={onClick}><button>내 목록 {wantedVideo.length}</button></Link> : ''}
       <Content>
         <Detail>
-          <Video/>
+          <Music/>
         </Detail>
         <List>
-          <VideoLists/>
+          <MusicLists/>
         </List>
       </Content>
     </App>
@@ -79,4 +72,4 @@ const List = styled.div`
       border-radius:6px;
     }
 `
-export default Cover
+export default CoverPlaylists

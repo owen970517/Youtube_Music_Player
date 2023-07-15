@@ -4,25 +4,20 @@ import styled from "styled-components"
 import { useDispatch, useSelector } from 'react-redux';
 import { getFriaPlaylistInfo, getFriaPlaylists, getLiveClip, getLiveClipInfo, playlistActions } from '../store/playlistSlice';
 import { IVideo } from '../type/videoProps';
-import { AppDispatch } from '../store/store';
+import { AppDispatch, RootState } from '../store/store';
 import Weekly from '../components/Weekly';
-import Latest from '../components/Latest';
+
 import HomeImg from '../data/main.png'
+import LatestMusics from 'src/components/musics/LatestMusics';
 
 function Home() {
   const dispatch = useDispatch<AppDispatch>()
-  const {allData,clipData,coverVideo,liveClips} = useSelector((state:any) => state.playlist)
+  const {allData,clipData,coverVideo,liveClips} = useSelector((state:RootState) => state.playlist)
   const formatIdString = (list:IVideo[]) => {
-    if (!list) return ''
-    let videoIdList:string[] = []
-    list?.map((x) => (
-          videoIdList?.push("&id=" + x.snippet.resourceId.videoId)
-        ));
-    let videoIdString = videoIdList?.join("");
-    return videoIdString
+    return list?.map((x) => "&id=" + x.snippet.resourceId.videoId).join("");
   }
-  const friaPlaylistId = formatIdString(allData!)
-  const liveCliplistId = formatIdString(clipData!)
+  const friaPlaylistId = formatIdString(allData)
+  const liveCliplistId = formatIdString(clipData)
   useEffect(()=> {
     dispatch(getFriaPlaylists())
     dispatch(getFriaPlaylistInfo(friaPlaylistId))
@@ -45,7 +40,7 @@ function Home() {
         <Img src={HomeImg} alt='bgimg'/>
       </ImgWrapper>
       <Weekly/> 
-      <Latest/> 
+      <LatestMusics/> 
     </Main>  
   )
 }

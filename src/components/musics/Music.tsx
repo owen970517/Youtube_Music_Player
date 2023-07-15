@@ -1,23 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import ReactPlayer from 'react-player/lazy'
-import MuteSpeaker from '../data/Mute_Icon.svg'
-import Speaker from '../data/Speaker_Icon.svg'
-import Play from '../data/play.svg'
-import Pause from '../data/pause.svg'
-import Prev from '../data/prev.svg'
-import Next from '../data/next.svg'
-import Loop from '../data/loop-69.svg'
-import NotLoop from '../data/loop-none.svg'
-import Random from '../data/random.svg'
+import MuteSpeaker from '../../data/Mute_Icon.svg'
+import Speaker from '../../data/Speaker_Icon.svg'
+import Play from '../../data/play.svg'
+import Pause from '../../data/pause.svg'
+import Prev from '../../data/prev.svg'
+import Next from '../../data/next.svg'
+import Loop from '../../data/loop-69.svg'
+import NotLoop from '../../data/loop-none.svg'
+import Random from '../../data/random.svg'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import { useDispatch } from 'react-redux/es/exports'
-import { videoActions } from '../store/videoSlice'
-import { RootState } from '../store/store'
+import { videoActions } from '../../store/videoSlice'
+import { AppDispatch, RootState } from '../../store/store'
 import dayjs from 'dayjs'
 
-const Video = () => {
-  const dispatch = useDispatch()
+const Music = () => {
+  const dispatch = useDispatch<AppDispatch>()
   const {isPlaying,isMuted,volume,isLoop,isRandom,elapsedTime,duration} = useSelector((state:RootState) => state.video)
   const {allVideos,filteredVideos } = useSelector((state:RootState) => state.playlist)
   const [isHovered, setIsHovered] = useState(false);
@@ -107,7 +107,7 @@ const Video = () => {
               host: "https://www.youtube-nocookie.com",
             },
             playerVars: {
-              origin: window.location.origin,
+              origin: `${window.location.origin}/playlist`,
             },
           },
         }}
@@ -234,4 +234,4 @@ const Progress = styled.div`
 
 `
 
-export default React.memo(Video)
+export default React.memo(Music)

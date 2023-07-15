@@ -42,35 +42,12 @@ const Weekly = () => {
           })}
           </Lists>
         </List>
-        <List>
-          <ListsHeader>
-            <h3>#</h3>
-            <h3>Track/Artist</h3>
-            <h3>Time</h3>
-            <h3>Plays</h3>
-          </ListsHeader>
-          <Lists>
-            {liveClips?.map((video:IVideo,index:number) => {
-                return ( 
-                <Video key={video.etag}>
-                  {index+1 < 10 ? `0${index+1}` : `${index+1}`}
-                  <Thumnail src={video?.snippet?.thumbnails?.medium.url} alt="video thumbnail"/>
-                  <Title isHide={isHide}>
-                    <p>{video.snippet.title}</p>
-                  </Title>                  
-                  <p>{formDuration(video.contentDetails.duration)}</p>
-                  <p>{video.statistics.viewCount}</p>
-                </Video>
-                )
-            })}
-          </Lists>
-        </List>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-  width: 82%;
+  width: 80%;
   display: flex;
   justify-content:center;
   margin: 0 auto;
@@ -124,6 +101,10 @@ const scrollText = keyframes`
     transform: translateX(-100%);
   }
 `
+const animateSlide = css`
+  animation: ${scrollText} 7s linear infinite;
+  animation-fill-mode: forwards;
+`;
 
 const Title = styled.div<{isHide :boolean}>`
   width: 45%;
@@ -131,7 +112,7 @@ const Title = styled.div<{isHide :boolean}>`
   white-space: nowrap;
   &:hover {
     > p {
-      animation:  ${scrollText} 7s linear infinite;
+      ${(props) => props.isHide && animateSlide}
     }
   }
 `

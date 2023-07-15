@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { IVideo } from '../type/videoProps'
-import VideoItem from './VideoItem'
+import VideoItem from './MusicItem'
 import { AppDispatch, RootState } from 'src/store/store'
 import { playlistActions } from 'src/store/playlistSlice'
 import { videoActions } from 'src/store/videoSlice'
+import { IVideo } from 'src/type/videoProps'
 
-const VideoLists = () => {
+const MusicLists = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [name, setName] = useState('');
   const listsRef = useRef<HTMLUListElement>(null);
@@ -81,4 +81,4 @@ const FilterBtn = styled.div`
   justify-content: center;
 `
 
-export default React.memo(VideoLists)
+export default React.memo(MusicLists)

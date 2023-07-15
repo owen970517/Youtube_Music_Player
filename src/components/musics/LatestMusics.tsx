@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect, useRef} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { playlistActions } from '../store/playlistSlice'
-import { AppDispatch } from '../store/store'
-import { IVideo } from '../type/videoProps'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import NextBtn from '../data/nextbtn.png'
-import PrevBtn from '../data/prevbtn.png'
+import NextBtn from '../../data/nextbtn.png'
+import PrevBtn from '../../data/prevbtn.png'
+import { IVideo } from 'src/type/videoProps'
+import { AppDispatch, RootState } from 'src/store/store';
+import { playlistActions } from 'src/store/playlistSlice';
 export const StyledSlider = styled(Slider)`
   overflow :hidden;
   .slick-list {
@@ -45,7 +45,7 @@ export const StyledSlider = styled(Slider)`
     }
   } */
 `;
-const Latest = () => {
+const LatestMusics = () => {
   const settings = {
     arrows:false,
     dots: true,
@@ -61,7 +61,7 @@ const Latest = () => {
   const prev = useCallback(() => slickRef?.current?.slickPrev(), []);
   const next = useCallback(() => slickRef?.current?.slickNext() , []);
   const dispatch = useDispatch<AppDispatch>()
-  const {allVideos,latestData} = useSelector((state:any) => state.playlist)
+  const {allVideos,latestData} = useSelector((state:RootState) => state.playlist)
   useEffect(() => {
       let arr = [...allVideos]
       const sorted_list = arr.sort((a:IVideo, b:IVideo) => 
@@ -90,7 +90,8 @@ const Latest = () => {
                 </VideoDiv>
               ))}
           </StyledSlider>
-        </Wrapper>   }
+        </Wrapper>   
+      }
     </>
   )
 }
@@ -125,4 +126,4 @@ const Thumnail = styled.img`
   flex: none;
 `
 
-export default Latest
+export default LatestMusics

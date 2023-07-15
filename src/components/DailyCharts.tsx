@@ -24,8 +24,6 @@ const DailyCharts = () => {
   const [viewCountIncrease, setViewCountIncrease] = useState(0);
 
   useEffect(() => {
-    // 이전 주의 조회수를 가져옵니다.
-    const previousViewCount = getPreviousViewCountFromDatabase();
     setPreviousViewCount(previousViewCount);
 
     // 현재 주의 조회수를 가져옵니다.
@@ -51,13 +49,6 @@ const DailyCharts = () => {
     } catch (error) {
       console.error('API 호출 중 오류 발생:', error);
     }
-  }
-
-  function getPreviousViewCountFromDatabase() {
-    // 서버 또는 데이터베이스에서 이전 주의 조회수를 가져옵니다.
-    // 적절한 방법으로 이전 주의 조회수를 조회하여 반환합니다.
-    // 예를 들어, 파일이나 데이터베이스에 저장되어 있는 경우 해당 값을 읽어올 수 있어야 합니다.
-    return 5000; // 이전 주의 조회수 예시
   }
 
   return (
