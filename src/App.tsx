@@ -1,17 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter} from 'react-router-dom';
 import './App.css';
 import { authService} from './firebase';
 import Page from './pages/Page';
 import Header from './layout/Header';
-import { AppDispatch, RootState } from './store/store';
 import { IUser } from './type/userType';
 import Footer from './layout/Footer';
 
 const App:React.FC= () => {
-  const dispatch = useDispatch<AppDispatch>()
-  const {allData,clipData,coverVideo , liveClips} = useSelector((state:RootState) => state.playlist)
   const [isLogin , setIsLogin] = useState(false);
   const [userObj , setUserObj] = useState<IUser>();
   useEffect(()=> {

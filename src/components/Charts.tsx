@@ -5,8 +5,6 @@ import styled, { keyframes } from 'styled-components'
 import {  playlistActions } from '../store/playlistSlice'
 import { AppDispatch, RootState } from '../store/store'
 import { videoActions } from '../store/videoSlice'
-import DailyCharts from './DailyCharts'
-import WeeklyChart from './WeeklyChart'
 import { IVideo } from 'src/type/videoProps'
 import dayjs from 'dayjs'
 
@@ -56,7 +54,6 @@ const Charts = () => {
       <Content>
         {/* <ChartList>
           {sort ==='누적순' && <VideoLists/>}
-          {sort === '일간순' && <WeeklyChart/>}
         </ChartList> */}
         <Wrapper>
           <List>

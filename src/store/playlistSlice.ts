@@ -3,7 +3,8 @@ import { IVideo } from "../type/videoProps";
 import moment from "moment";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-const playlistFria = 'PLR2_QUSqS6X0vTlLq8R-eDSA7Ea1hpsWr'
+// PLR2_QUSqS6X0vTlLq8R-eDSA7Ea1hpsWr
+const playlistFria = 'PLT84I6XdVQ8W3cAOf-qSDP29hJs08s5CI'
 const liveclip = 'PLBgSCwfdu8IMT2MoCc0qEKAa4Wi2h5_X2'
 const friaplaylistId = 'PLR2_QUSqS6X2FxXxOwq3uBRGj6luUoWBk'
 

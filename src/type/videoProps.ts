@@ -1,6 +1,6 @@
 export interface IVideo {
     etag: string;
-    id : string;
+    id? : string;
     weeklyStatistics : {
         viewCount : string;
     };

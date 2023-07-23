@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { IVideo } from '../type/videoProps';
 
 interface IVideoProps {
-    selectedVideo : IVideo[]
+    selectedVideo? : IVideo
     wantedVideo :IVideo[]
     index : number
     isPlaying:boolean
@@ -16,7 +16,6 @@ interface IVideoProps {
 }
 
 const initialVideoState:IVideoProps = {
-    selectedVideo : [],
     wantedVideo : [],
     index : 0,
     isPlaying:false,

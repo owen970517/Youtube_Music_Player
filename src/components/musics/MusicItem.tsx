@@ -1,14 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback} from 'react'
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import styled from 'styled-components';
 import { IVideo } from 'src/type/videoProps';
 import { videoActions } from 'src/store/videoSlice';
+import { RootState } from 'src/store/store';
 
 
 const MusicItem =   ({video , idx} : {video : IVideo,idx:number}) => {
     const dispatch = useDispatch()
-    const {wantedVideo,selectedVideo} = useSelector((state:any) => state.video)
-    const {allVideos,selectedVideos,filteredVideos} = useSelector((state:any) => state.playlist)
+    const {wantedVideo,selectedVideo} = useSelector((state:RootState) => state.video)
+    const {filteredVideos} = useSelector((state:RootState) => state.playlist)
     const onClick = useCallback(() => {
       dispatch(videoActions.currentIndex(idx))
     }, [dispatch, idx]);
@@ -22,6 +23,7 @@ const MusicItem =   ({video , idx} : {video : IVideo,idx:number}) => {
     const isActive = (idx:number) => {
       return selectedVideo?.id === filteredVideos[idx]?.id ? 'active' : ''
     };
+    
     return (
       <Container onClick={onClick}>
         <Video className={isActive(idx)}>
@@ -31,8 +33,8 @@ const MusicItem =   ({video , idx} : {video : IVideo,idx:number}) => {
           /> */}
           <MetaDiv>
             <input type='checkbox' onChange={onCheckBtn} checked={wantedVideo?.map((video:any) => video?.id).includes(video?.id) ? true : false}/>
-            <Title>{video.snippet.title}</Title>
-            <h5>{video.statistics.viewCount}회</h5>
+            <Title>{video?.snippet.title}</Title>
+            <h5>{video?.statistics.viewCount}회</h5>
           </MetaDiv>
         </Video>
       </Container>
