@@ -44,8 +44,9 @@ const Music = () => {
     } else if (isRandom) {
       let randomIndex = Math.floor(Math.random() * filteredVideos.length)
       dispatch(videoActions.currentIndex(randomIndex))
-    } 
-    dispatch(videoActions.currentIndex(videoIndex+1))
+    } else {
+      dispatch(videoActions.currentIndex(videoIndex+1))
+    }
   }
   const handlePrevVideo = () => {
     if (videoIndex > 0) {
@@ -87,13 +88,12 @@ const Music = () => {
     dispatch(videoActions.setDuration(formDuration(filteredVideos[videoIndex]?.contentDetails?.duration)))
   },[duration, videoIndex, filteredVideos, dispatch])
   let nowTime = formatElapsed(elapsedTime)
-
   return (
     <Detail>
       <Thumbnails src={filteredVideos[videoIndex]?.snippet?.thumbnails?.medium?.url} alt='thumbnails'/>
       <ReactPlayer 
         ref={videoRef}
-        url={`https://www.youtube-nocookie.com/embed/${filteredVideos[videoIndex]?.id}`} 
+        url={`https://www.youtube-nocookie.com/watch?v=${filteredVideos[videoIndex]?.id}`} 
         volume={volume}
         loop={isLoop}
         muted={isMuted}
