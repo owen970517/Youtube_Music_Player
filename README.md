@@ -6,6 +6,15 @@
 - npm install
 - npm start
 
+## 화면 구성 
+
+|     메인 페이지   |
+<img width="600" alt="issueList_gif" src="https://github.com/owen970517/pre_onboarding_4th/assets/75247323/9f1f7e1a-8792-45f3-ab0e-5fc0ec49e436" /> 
+
+|  플레이리스트 |
+
+<img width="600" alt="issueDetail_gif" src="https://github.com/owen970517/pre_onboarding_4th/assets/75247323/9497fd41-cd8a-4a70-98da-ebbd836a06a5" />
+
 ## 사용한 라이브러리
 
 - ReactJS
