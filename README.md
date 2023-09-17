@@ -52,6 +52,30 @@
     - 재생,멈춤,다음곡,이전곡,랜덤재생, 반복재생,볼륨 조절 기능을 구현
     - 필터 버튼을 만들어 해당 값이 포함된 곡만 보여주도록 구현
 
+## 트러블 슈팅
 
+### 1. SameSite 에러 
+
+- **youtube api로 동영상을 불러올 때 마다 console issues에 에러 발생**
+
+    <br/>
+    <img width='100%' src='https://github.com/owen970517/youtube_clone/assets/75247323/a689e914-ed01-46a1-99da-c9474f9a9fda'>
+    <br/>
+
+- **해결 방법**
+  - 유튜브가 기본적으로 추적 쿠키를 설정하기 때문에 클라이언트 단에서 완전히 없애긴 불가
+  - ReactPlayer 컴포넌트 내부에 아래 코드 추가 
+    <details>
+      <summary><b>👈코드 보기</b></summary>
+        <div markdown="1">
+            <ul>
+                https://github.com/owen970517/youtube_clone/blob/c15ea24b2a3cbca2fe5624dd5e117c42817ba007/src/components/musics/Music.tsx#L104-L113
+            </ul>
+        </div>
+    </details>
+  - 처음보단 숫자가 줄어든 것을 확인할 수 있었습니다. 
+    <br/>
+    <img width='100%' src='https://github.com/owen970517/youtube_clone/assets/75247323/9b6c581e-a0ba-495a-8193-cc6513eb0505'>
+    <br/>
 
 
