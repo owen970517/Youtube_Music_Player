@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef } from 'react'
 import {useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import VideoItem from './MusicItem'
@@ -6,34 +6,30 @@ import { AppDispatch, RootState } from 'src/store/store'
 import { playlistActions } from 'src/store/playlistSlice'
 import { videoActions } from 'src/store/videoSlice'
 import { IVideo } from 'src/type/videoProps'
+import { Members } from 'src/constants/member'
 
 const MusicLists = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const [name, setName] = useState('');
   const listsRef = useRef<HTMLUListElement>(null);
   const {allVideos,filteredVideos}  = useSelector((state:RootState) => state.playlist);
-  const handleFilterClick = (value: string , b?:string) => {
-    console.log(value)
-    setName(value);
-    dispatch(videoActions.currentIndex(0))
-    const filtered = allVideos.filter((v: IVideo) =>
-      v?.snippet.title.includes(value) || v?.snippet.title.includes(b!)
-    );
-    dispatch(playlistActions.setFilteredVideos(filtered));
+  const handleFilterClick = useCallback((value: string , altValue?:string) => {
     if (listsRef.current) { 
       listsRef.current.scrollTo(0, 0); 
     }
-  };
+    dispatch(videoActions.currentIndex(0))
+    const filtered = allVideos.filter((v: IVideo) =>
+      v?.snippet.title.includes(value) || v?.snippet.title.includes(altValue!)
+    );
+    dispatch(playlistActions.setFilteredVideos(filtered));
+  },[allVideos]);
 
   return (
     <Wrapper>
       <Title>Playlist</Title>
       <FilterBtn>
-        <button onClick={() => handleFilterClick('')}>전체</button>
-        <button onClick={() => handleFilterClick('고여름','GoSummer')}>고여름</button>
-        <button onClick={() => handleFilterClick('바밍')}>바밍</button>
-        <button onClick={() => handleFilterClick('베베리')}>베베리</button>
-        <button onClick={() => handleFilterClick('블러비')}>블러비</button>
+        {Members.map((member) => 
+          <button key={member.name} onClick={() => handleFilterClick(member.value,member.altValue)}>{member.name}</button>
+        )}
       </FilterBtn>
       <Lists ref={listsRef}>
         {filteredVideos?.map((video: IVideo, index: number) => (
@@ -79,7 +75,6 @@ const Lists = styled.ul`
 const FilterBtn = styled.div`
   display: flex;
   justify-content: space-around;
-  justify-content: center;
 `
 
 export default React.memo(MusicLists)
