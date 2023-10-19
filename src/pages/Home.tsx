@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import React from 'react';
 import styled from "styled-components"
 import { useDispatch, useSelector } from 'react-redux';
-import { getFriaPlaylistInfo, getFriaPlaylists, getLiveClip, getLiveClipInfo, playlistActions } from '../store/playlistSlice';
+import { getFriaPlaylistInfo, getFriaPlaylists, playlistActions } from '../store/playlistSlice';
 import { IVideo } from '../type/videoProps';
 import { AppDispatch, RootState } from '../store/store';
 import Weekly from '../components/Weekly';
@@ -12,28 +12,26 @@ import LatestMusics from 'src/components/musics/LatestMusics';
 
 function Home() {
   const dispatch = useDispatch<AppDispatch>()
-  const {allData,clipData,coverVideo,liveClips} = useSelector((state:RootState) => state.playlist)
+  const {allData,coverVideo} = useSelector((state:RootState) => state.playlist)
   const formatIdString = (list:IVideo[]) => {
     return list?.map((x) => "&id=" + x.snippet.resourceId.videoId).join("");
   }
   const friaPlaylistId = formatIdString(allData)
-  const liveCliplistId = formatIdString(clipData)
+
   useEffect(()=> {
     dispatch(getFriaPlaylists())
     dispatch(getFriaPlaylistInfo(friaPlaylistId))
-    dispatch(getLiveClip())
-    dispatch(getLiveClipInfo(liveCliplistId))
-  },[dispatch, friaPlaylistId, liveCliplistId])
+  },[dispatch, friaPlaylistId])
 
   useEffect(() => {
     let list:IVideo[] = []
-    if (coverVideo && liveClips) {
-      list = [...coverVideo , ...liveClips]  
+    if (coverVideo ) {
+      list = [...coverVideo]  
       list.sort((a:IVideo,b:IVideo) => parseInt(b.statistics.viewCount)-parseInt(a.statistics.viewCount))  
     }
     dispatch(playlistActions.setAllVideos(list))
     dispatch(playlistActions.setFilteredVideos(list))
-  },[coverVideo, dispatch, liveClips])
+  },[coverVideo, dispatch])
   return (
     <Main>
       <ImgWrapper>

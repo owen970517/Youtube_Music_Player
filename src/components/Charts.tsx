@@ -11,7 +11,7 @@ import dayjs from 'dayjs'
 const Charts = () => {
   const dispatch = useDispatch<AppDispatch>()
   const {wantedVideo } = useSelector((state:RootState) => state.video)
-  const {liveClips,coverVideo,allVideos,sort} = useSelector((state:RootState) => state.playlist)
+  const {coverVideo,allVideos,sort} = useSelector((state:RootState) => state.playlist)
   const textRef = useRef<HTMLParagraphElement>(null)
   const isHide = textRef.current?.offsetWidth !== undefined && textRef.current?.offsetWidth < textRef.current?.scrollWidth;
   const formDuration = (value:string) => {
@@ -21,11 +21,11 @@ const Charts = () => {
     return `${minutes > 10 ? minutes : `0${minutes}`}:${seconds < 10 ? `0${seconds}` : seconds}`;
   }
   useEffect(() => {
-    dispatch(playlistActions.setAllVideos([ ...coverVideo , ...liveClips]))
-  },[coverVideo, dispatch, liveClips])
+    dispatch(playlistActions.setAllVideos([ ...coverVideo]))
+  },[coverVideo, dispatch])
   const handlePlaylistClick = () => {
     dispatch(videoActions.currentIndex(0))
-    dispatch(playlistActions.setFilteredVideos(wantedVideo))
+
   }
   const handleAllClick = () => {
     dispatch(videoActions.currentIndex(0))
@@ -47,23 +47,19 @@ const Charts = () => {
   },[dispatch, sort])
   return (
     <>
-      <Link to='/playlist' onClick={handleAllClick}><button>전체 재생</button></Link>
-      <button onClick={onSortedBtn}>일간</button>
-      <button onClick={onSortedBtn}>누적</button>
-      {wantedVideo.length > 0 ? <Link to='/mylist' onClick={handlePlaylistClick}><button>내 목록 {wantedVideo.length}</button></Link> : ''}
+      <BtnWrap>
+        <Link to='/playlist' onClick={handleAllClick}><AllBtn>모두 재생</AllBtn></Link>
+        {wantedVideo.length > 0 ? <Link to='/mylist' onClick={handlePlaylistClick}><AllBtn>내 목록 {wantedVideo.length}</AllBtn></Link> : ''}
+      </BtnWrap>
       <Content>
-        {/* <ChartList>
-          {sort ==='누적순' && <VideoLists/>}
-        </ChartList> */}
         <Wrapper>
+          <ListsHeader>
+              <h3 style={{marginLeft:'88px'}}>#</h3>
+              <h3 style={{marginLeft:'160px'}}>Track/Artist</h3>
+              <h3 style={{marginLeft:'240px'}}>Time</h3>
+              <h3 style={{marginLeft:'32px'}}>Views</h3>
+          </ListsHeader>
           <List>
-            <ListsHeader>
-              <h3>#</h3>
-              <h3>Track/Artist</h3>
-              <h3>Time</h3>
-              <h3>Views</h3>
-              <h3>Plays</h3>
-            </ListsHeader>
             <Lists>
               {allVideos?.map((video:IVideo,index:number) => {
                   return ( 
@@ -76,10 +72,9 @@ const Charts = () => {
                     </Title>
                     <p>{formDuration(video.contentDetails.duration)}</p>
                     <p>{video.statistics.viewCount}</p>
-                    <button>재생</button>
                   </Video>
                   )
-              })}
+                })}
               </Lists>
             </List>
         </Wrapper>
@@ -88,38 +83,42 @@ const Charts = () => {
   )
 }
 
+const BtnWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const AllBtn = styled.button`
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+`
+
 const Content = styled.section`
-  width: 100%;
+  width: 70%;
   height : 500px;
   padding : 10px;
-  overflow-y: scroll;
+  margin: 0 auto;
   border-radius: 5px;
   background-color: white;
-  &::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
-      border-radius: 6px;
-      background-color: rgba(255,255,255,0.4);
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(0,0,0,0.3);
-      border-radius:6px;
-    }
 `
 
 const Wrapper = styled.div`
-  width: 55%;
+  width: 70%;
   display: flex;
+  flex-direction: column;
   justify-content:center;
   margin: 0 auto;
 `
 const List = styled.div`
   width: 100%;
-  height : 500px;
+  height : 450px;
   margin: 0 10px;
-  overflow-y: scroll;
   border-radius: 5px;
   background-color: white;
+  overflow-y: scroll;
   &::-webkit-scrollbar {
       width: 5px;
       height: 5px;
@@ -141,7 +140,6 @@ const Lists = styled.ul`
 `
 const ListsHeader = styled.div`
   display: flex;
-  justify-content: space-around;
   align-items: center;
 `
 const Video = styled.div`
@@ -180,4 +178,6 @@ const Thumnail = styled.img`
   border-radius: 5px;
   z-index: 0;
 `
+
+
 export default Charts

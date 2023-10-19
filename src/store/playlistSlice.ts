@@ -5,9 +5,8 @@ import moment from "moment";
 const API_KEY = process.env.REACT_APP_API_KEY;
 // PLR2_QUSqS6X0vTlLq8R-eDSA7Ea1hpsWr
 const playlistFria = 'PLT84I6XdVQ8W3cAOf-qSDP29hJs08s5CI'
-const liveclip = 'PLBgSCwfdu8IMT2MoCc0qEKAa4Wi2h5_X2'
+// const liveclip = 'PLBgSCwfdu8IMT2MoCc0qEKAa4Wi2h5_X2'
 const friaplaylistId = 'PLR2_QUSqS6X2FxXxOwq3uBRGj6luUoWBk'
-
 
 export const getFriaPlaylists = createAsyncThunk('get/friaPlaylists',
     async (_, { rejectWithValue }) => {
@@ -31,52 +30,6 @@ export const getFriaPlaylistInfo = createAsyncThunk('get/playlistsInfo' ,
           }
     })
 
-export const getFriaVideos = createAsyncThunk('get/friaVideos',
-    async () => {
-        try {
-            const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${friaplaylistId}&maxResults=10&key=${API_KEY}`)
-            const data = await res.json();
-            return data.items
-        } catch(err:any) {
-            let error = err
-            if (!error.response ) {
-                throw err?.response?.data
-            }
-        }
-    }
-)
-export const getFriaVideosInfo = createAsyncThunk('get/friaInfo' ,
-    async (idLists:string ) => {
-        if (idLists) {
-            const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics${idLists}&key=${API_KEY}`)
-            const data = await res.json();
-            const sortedVideo = await data?.items?.sort((a:IVideo,b:IVideo) => parseInt(b.statistics.viewCount)-parseInt(a.statistics.viewCount))
-            return sortedVideo
-          }
-    })
-export const getLiveClip = createAsyncThunk('get/live-clip',
-    async () => {
-        try {
-            const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${liveclip}&maxResults=1000&key=${API_KEY}`)
-            const data = await res.json();
-            return data.items
-        } catch(err:any) {
-            let error = err
-            if (!error.response ) {
-                throw err?.response?.data
-            }
-        }
-    }
-)
-export const getLiveClipInfo = createAsyncThunk('get/clipInfo' ,
-    async (idLists:string ) => {
-        if (idLists) {
-            const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics${idLists}&key=${API_KEY}`)
-            const data = await res.json();
-            const sortedVideo = await data?.items?.sort((a:IVideo,b:IVideo) => parseInt(b.statistics.viewCount)-parseInt(a.statistics.viewCount))
-            return sortedVideo
-          }
-    })
 interface IPlaylistProps {
     sort : string,
     dailyTime : string,
@@ -94,7 +47,6 @@ interface IPlaylistProps {
     friaData : IVideo[],
     friaPlaylist : IVideo[],
     clipData : IVideo[],
-    liveClips : IVideo[]
 }
 
 const initialPlaylistState:IPlaylistProps = {
@@ -114,7 +66,6 @@ const initialPlaylistState:IPlaylistProps = {
     friaData : [],
     friaPlaylist : [],
     clipData : [],
-    liveClips : [],
 }
 
 const playlistSlice = createSlice({
@@ -157,15 +108,6 @@ const playlistSlice = createSlice({
             if (payload) {
                 // state.allVideos = payload
                 state.coverVideo = payload
-            }
-        });
-        builder.addCase(getLiveClip.fulfilled, (state, { payload }) => {
-            state.clipData = payload
-        });
-        builder.addCase(getLiveClipInfo.fulfilled , (state:IPlaylistProps, { payload }) => {         
-            if (payload) {
-                // state.allVideos = state.allVideos.concat(payload)
-                state.liveClips = payload
             }
         });
     },

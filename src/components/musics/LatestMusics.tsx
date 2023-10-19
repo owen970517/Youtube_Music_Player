@@ -22,28 +22,6 @@ export const StyledSlider = styled(Slider)`
     margin: 5px;
     box-sizing: border-box;
   }
-
-  // dots
-  /* .slick-dots {
-    left: 50%;
-    bottom: 5px;
-    width: auto;
-    padding: 0px 12px;
-    background-color: #fff;
-    border-radius: 10.5px;
-    z-index: 10;
-    transform: translate(-50%, 0);
-
-    li {
-      width: 10px;
-      height: 10px;
-      margin: 0;
-
-      &:last-of-type {
-        margin-left: 6px;
-      }
-    }
-  } */
 `;
 const LatestMusics = () => {
   const settings = {
@@ -55,7 +33,7 @@ const LatestMusics = () => {
     slidesToScroll: 5,
     lazyload : true,
     autoplay: true,
-    autoplaySpeed: 10000,
+    autoplaySpeed: 5000,
   };
   const slickRef = useRef<Slider>(null);
   const prev = useCallback(() => slickRef?.current?.slickPrev(), []);
@@ -81,14 +59,14 @@ const LatestMusics = () => {
             </ButtonDiv>
           </Head>
           <StyledSlider {...settings} ref={slickRef}>
-              {latestData.map((video:IVideo) => (
-                <VideoDiv key={video.etag}>
-                  <Thumnail
-                    src={video?.snippet?.thumbnails?.medium?.url}
-                    alt="video thumbnail"
-                  />
-                </VideoDiv>
-              ))}
+            {latestData.map((video:IVideo) => (
+              <VideoDiv key={video.etag}>
+                <Thumnail
+                  src={video.snippet.thumbnails.medium.url}
+                  alt="video thumbnail"
+                />
+              </VideoDiv>
+            ))}
           </StyledSlider>
         </Wrapper>   
       }
