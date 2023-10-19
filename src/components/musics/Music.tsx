@@ -15,16 +15,18 @@ import { useDispatch } from 'react-redux/es/exports'
 import { videoActions } from '../../store/videoSlice'
 import { AppDispatch, RootState } from '../../store/store'
 import dayjs from 'dayjs'
+import { useLocation } from 'react-router-dom'
 
 const Music = () => {
+  const locate = useLocation()
   const dispatch = useDispatch<AppDispatch>()
-  const {isPlaying,isMuted,volume,isLoop,isRandom,elapsedTime,duration} = useSelector((state:RootState) => state.video)
-  const {allVideos,filteredVideos } = useSelector((state:RootState) => state.playlist)
+  const {isPlaying,isMuted,volume,isLoop,isRandom,elapsedTime,duration,wantedVideo} = useSelector((state:RootState) => state.video)
+  const {filteredVideos } = useSelector((state:RootState) => state.playlist)
   const [isHovered, setIsHovered] = useState(false);
   const videoIndex = useSelector((state:RootState) => state.video.index)
   const videoRef = useRef<ReactPlayer>(null)
   const totalTime = videoRef?.current?.getDuration() || 0
-
+  const nowVideoLists = locate.pathname==='/mylist' ? wantedVideo : filteredVideos
   const togglePlaying = () => {
     dispatch(videoActions.setIsPlaying())
   }
@@ -39,10 +41,10 @@ const Music = () => {
     dispatch(videoActions.setVolume(newValue))
   }
   const handleNextVideo = () => {
-    if (videoIndex === filteredVideos.length -1 ) {
+    if (videoIndex === nowVideoLists.length -1 ) {
       dispatch(videoActions.currentIndex(0))
     } else if (isRandom) {
-      let randomIndex = Math.floor(Math.random() * filteredVideos.length)
+      let randomIndex = Math.floor(Math.random() * nowVideoLists.length)
       dispatch(videoActions.currentIndex(randomIndex))
     } else {
       dispatch(videoActions.currentIndex(videoIndex+1))
@@ -85,15 +87,15 @@ const Music = () => {
     return `0${minute}:${seconds < 10 ? `0${seconds}` : seconds}`; 
   }
   useEffect(() => {
-    dispatch(videoActions.setDuration(formDuration(filteredVideos[videoIndex]?.contentDetails?.duration)))
-  },[duration, videoIndex, filteredVideos, dispatch])
+    dispatch(videoActions.setDuration(formDuration(nowVideoLists[videoIndex]?.contentDetails?.duration)))
+  },[duration, videoIndex, nowVideoLists, dispatch])
   let nowTime = formatElapsed(elapsedTime)
   return (
     <Detail>
-      <Thumbnails src={filteredVideos[videoIndex]?.snippet?.thumbnails?.medium?.url} alt='thumbnails'/>
+      <Thumbnails src={nowVideoLists[videoIndex]?.snippet.thumbnails.medium.url} alt='thumbnails'/>
       <ReactPlayer 
         ref={videoRef}
-        url={`https://www.youtube-nocookie.com/watch?v=${filteredVideos[videoIndex]?.id}`} 
+        url={`https://www.youtube.com/watch?v=${nowVideoLists[videoIndex]?.id}`} 
         volume={volume}
         loop={isLoop}
         muted={isMuted}
@@ -113,8 +115,6 @@ const Music = () => {
         }}
         />
       <Info>
-        {/* <Title>{allVideos[videoIndex]?.snippet?.title}</Title> */}
-        {/* <h4>{allVideos[videoIndex]?.snippet?.publishedAt.slice(0,10)}</h4> */}
         <span>{nowTime} | {duration}</span>
         <Progress>
           <input type='range' min={0} max={totalTime ? totalTime : 0} value={elapsedTime} onChange={onSeekChange} onClick={onClickSeek}/>

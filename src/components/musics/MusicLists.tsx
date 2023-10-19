@@ -7,33 +7,38 @@ import { playlistActions } from 'src/store/playlistSlice'
 import { videoActions } from 'src/store/videoSlice'
 import { IVideo } from 'src/type/videoProps'
 import { Members } from 'src/constants/member'
+import { useLocation } from 'react-router-dom'
 
 const MusicLists = () => {
+  const locate = useLocation()
   const dispatch = useDispatch<AppDispatch>();
   const listsRef = useRef<HTMLUListElement>(null);
-  const {allVideos,filteredVideos}  = useSelector((state:RootState) => state.playlist);
+  const {wantedVideo } = useSelector((state:RootState) => state.video)
+  const {filteredVideos}  = useSelector((state:RootState) => state.playlist);
+  const nowVideoLists = locate.pathname==='/mylist' ? wantedVideo : filteredVideos
   const handleFilterClick = useCallback((value: string , altValue?:string) => {
     if (listsRef.current) { 
       listsRef.current.scrollTo(0, 0); 
     }
     dispatch(videoActions.currentIndex(0))
-    const filtered = allVideos.filter((v: IVideo) =>
+    const filtered = nowVideoLists.filter((v: IVideo) =>
       v?.snippet.title.includes(value) || v?.snippet.title.includes(altValue!)
     );
     dispatch(playlistActions.setFilteredVideos(filtered));
-  },[allVideos]);
+  },[]);
 
   return (
     <Wrapper>
       <Title>Playlist</Title>
       <FilterBtn>
-        {Members.map((member) => 
-          <button key={member.name} onClick={() => handleFilterClick(member.value,member.altValue)}>{member.name}</button>
+        {locate.pathname==='/playlist' && Members.map((member) => 
+          <MemberBtn key={member.name} onClick={() => handleFilterClick(member.value,member.altValue)}>{member.name}</MemberBtn>
         )}
       </FilterBtn>
       <Lists ref={listsRef}>
-        {filteredVideos?.map((video: IVideo, index: number) => (
-          <VideoItem video={video} idx={index} key={video.id} />
+        {nowVideoLists.length <= 0  && <h3>음악이 존재하지 않습니다.</h3>}
+        {nowVideoLists?.map((video: IVideo, index: number) => (
+          <VideoItem video={video} idx={index} key={video?.id} />
         ))}
       </Lists>
     </Wrapper>
@@ -75,6 +80,12 @@ const Lists = styled.ul`
 const FilterBtn = styled.div`
   display: flex;
   justify-content: space-around;
+`
+
+const MemberBtn = styled.button`
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
 `
 
 export default React.memo(MusicLists)
