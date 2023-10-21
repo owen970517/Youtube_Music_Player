@@ -10,6 +10,7 @@ import Next from '../../data/next.svg'
 import Loop from '../../data/loop-69.svg'
 import NotLoop from '../../data/loop-none.svg'
 import Random from '../../data/random.svg'
+import Record from '../../data/음반.png'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import { useDispatch } from 'react-redux/es/exports'
 import { videoActions } from '../../store/videoSlice'
@@ -92,7 +93,7 @@ const Music = () => {
   let nowTime = formatElapsed(elapsedTime)
   return (
     <Detail>
-      <Thumbnails src={nowVideoLists[videoIndex]?.snippet.thumbnails.medium.url} alt='thumbnails'/>
+      <Thumbnails src={nowVideoLists[videoIndex]?.snippet.thumbnails.medium.url || Record} alt='thumbnails'/>
       <ReactPlayer 
         ref={videoRef}
         url={`https://www.youtube.com/watch?v=${nowVideoLists[videoIndex]?.id}`} 
