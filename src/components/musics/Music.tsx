@@ -1,46 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import ReactPlayer from 'react-player/lazy'
-import MuteSpeaker from '../../data/Mute_Icon.svg'
-import Speaker from '../../data/Speaker_Icon.svg'
-import Play from '../../data/play.svg'
-import Pause from '../../data/pause.svg'
-import Prev from '../../data/prev.svg'
-import Next from '../../data/next.svg'
-import Loop from '../../data/loop-69.svg'
-import NotLoop from '../../data/loop-none.svg'
-import Random from '../../data/random.svg'
 import Record from '../../data/음반.png'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import { useDispatch } from 'react-redux/es/exports'
 import { videoActions } from '../../store/videoSlice'
 import { AppDispatch, RootState } from '../../store/store'
-import dayjs from 'dayjs'
 import { useLocation } from 'react-router-dom'
+import MusicControl from './MusicControl'
+import { formDuration } from '../utils/changeTimeFormat'
 
 const Music = () => {
   const locate = useLocation()
   const dispatch = useDispatch<AppDispatch>()
-  const {isPlaying,isMuted,volume,isLoop,isRandom,elapsedTime,duration,wantedVideo} = useSelector((state:RootState) => state.video)
+  const {isPlaying,isMuted,volume,isLoop,isRandom,duration,wantedVideo} = useSelector((state:RootState) => state.video)
   const {filteredVideos } = useSelector((state:RootState) => state.playlist)
-  const [isHovered, setIsHovered] = useState(false);
   const videoIndex = useSelector((state:RootState) => state.video.index)
   const videoRef = useRef<ReactPlayer>(null)
-  const totalTime = videoRef?.current?.getDuration() || 0
   const nowVideoLists = locate.pathname==='/mylist' ? wantedVideo : filteredVideos
-  const togglePlaying = () => {
-    dispatch(videoActions.setIsPlaying())
-  }
-  const backwardBtn = () => {
-    videoRef?.current?.seekTo(videoRef.current.getCurrentTime()-5)
-  }
-  const forwardBtn = () => {
-    videoRef?.current?.seekTo(videoRef.current.getCurrentTime()+5)
-  }
-  const onVolumeChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseInt(e.target.value)/100
-    dispatch(videoActions.setVolume(newValue))
-  }
   const handleNextVideo = () => {
     if (videoIndex === nowVideoLists.length -1 ) {
       dispatch(videoActions.currentIndex(0))
@@ -51,48 +28,12 @@ const Music = () => {
       dispatch(videoActions.currentIndex(videoIndex+1))
     }
   }
-  const handlePrevVideo = () => {
-    if (videoIndex > 0) {
-      dispatch(videoActions.currentIndex(videoIndex-1))
-    }
-  }
-  const onSeekChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(videoActions.setElapsedTime(parseInt(e.target.value)))
-    videoRef.current?.seekTo(elapsedTime)
-  }
-  const onClickSeek = (e:React.MouseEvent<HTMLInputElement>) => {
-    dispatch(videoActions.setElapsedTime(parseInt(e.currentTarget.value)))
-    videoRef.current?.seekTo(elapsedTime)
-  }
-  const onMutedToggle = () => {
-    dispatch(videoActions.setIsMuted(null))
-  }
-  const onToggleLoop = () => {
-    dispatch(videoActions.setIsLoop())
-  }
-  const onRandomToggle = () => {
-    dispatch(videoActions.setIsRandom())
-  }
-  const formDuration = (value:string) => {
-    const timeDuration = dayjs.duration(value)
-    const minutes = timeDuration.minutes();
-    const seconds = timeDuration.seconds();
-    return `${minutes > 10 ? minutes : `0${minutes}`}:${seconds < 10 ? `0${seconds}` : seconds}`;
-  }
-  const formatElapsed = (value:number) => {
-    if (value === 0 ) {
-      return '00:00'
-    }
-    const minute = Math.floor(value / 60)
-    const seconds = Math.floor(value - minute * 60)
-    return `0${minute}:${seconds < 10 ? `0${seconds}` : seconds}`; 
-  }
   useEffect(() => {
     dispatch(videoActions.setDuration(formDuration(nowVideoLists[videoIndex]?.contentDetails?.duration)))
-  },[duration, videoIndex, nowVideoLists, dispatch])
-  let nowTime = formatElapsed(elapsedTime)
+  },[duration, videoIndex, nowVideoLists])
+
   return (
-    <Detail>
+    <MusicContainer>
       <Thumbnails src={nowVideoLists[videoIndex]?.snippet.thumbnails.medium.url || Record} alt='thumbnails'/>
       <ReactPlayer 
         ref={videoRef}
@@ -114,30 +55,13 @@ const Music = () => {
             },
           },
         }}
-        />
-      <Info>
-        <span>{nowTime} | {duration}</span>
-        <Progress>
-          <input type='range' min={0} max={totalTime ? totalTime : 0} value={elapsedTime} onChange={onSeekChange} onClick={onClickSeek}/>
-        </Progress>
-        <div style={{display:'flex' , justifyContent : 'center' }}>
-          <img src={Random} alt='random_btn' onClick={onRandomToggle} style={{width :'30px', height : '30px'}}/>
-          <img src={Prev} alt='prev' onClick={handlePrevVideo} style={{width :'30px', height : '30px'}}></img>
-          {/* <button onClick={backwardBtn}>-5</button> */}
-          {isPlaying ? <img src={Pause} alt='pause' style={{width :'30px', height : '30px'}} onClick={togglePlaying}/> : <img src={Play} alt='play' style={{width :'30px', height : '30px'}} onClick={togglePlaying}/>}
-          {/* <button onClick={forwardBtn}>+5</button> */}
-          <img src={Next} alt="next" onClick={handleNextVideo} style={{width :'30px', height : '30px'}}></img>
-          {isLoop ? <img src={Loop} alt='loop' onClick={onToggleLoop} style={{width :'30px', height : '30px'}}/> : <img src={NotLoop} alt='not loop' onClick={onToggleLoop} style={{width :'30px', height : '30px'}}/>}
-          <VolumeControls volume={volume * 100} isMuted={isMuted} isHovered={isHovered} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-            <input type='range' value={isMuted ? 0 : volume * 100} min='0' max='100' onChange={onVolumeChange} step='10'/>
-            {isMuted || volume * 100 === 0 ? <img src={MuteSpeaker} alt='muted' style={{width :'30px', height : '30px'}} onClick={onMutedToggle}/> : <img src={Speaker} alt='speaker' style={{width :'30px', height : '30px'}} onClick={() => onMutedToggle()}/>}
-          </VolumeControls>
-        </div>
-      </Info>
-    </Detail>
+      />
+      <MusicControl videoRef={videoRef} handleNextVideo={handleNextVideo}/>
+    </MusicContainer>
   )
 }
-const Detail = styled.div`
+
+const MusicContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -159,13 +83,6 @@ const Detail = styled.div`
     margin-bottom: 30px;
   }
 `
-const Title = styled.p`
-  width: 70%;
-  margin: auto auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`
 const Thumbnails = styled.img`
   width : 40%;
   height: 40%;
@@ -175,64 +92,4 @@ const Thumbnails = styled.img`
     height: 50%;
   }
 `
-
-const Info = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-const VolumeControls = styled.div<{ volume: number; isMuted: boolean; isHovered: boolean }>`
-  display :flex;
-  align-items: center;
-  height: 100%;
-  position: relative;
-  flex-direction: ${(props) => (props.isHovered ? 'column' : '')};
-
-  input[type='range'] {
-    display: ${(props) => (props.isHovered ? 'block' : 'none')};
-    transform: rotate(-90deg);
-    position: absolute;
-    top:-70px;
-    -webkit-appearance: none;
-    background: #d9d9d9;
-    outline: none;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-
-    &::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 12px;
-      height: 12px;
-      background: #ffffff;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    &::-webkit-slider-thumb:hover {
-      background-color: #bfbfbf;
-    }
-
-    &::-webkit-slider-thumb:active {
-      background-color: #999999;
-    }
-    &::-webkit-slider-runnable-track {
-      height: 0.6rem;
-      background: ${(props) =>
-        props.volume && !props.isMuted
-          ? `linear-gradient(to right, red ${props.volume}%, rgba(229, 231, 235, 0.5)
-        ${props.volume}% 100%)`
-          : "#E5E7EB"};
-      border-radius: 20px;
-      transition: all 0.5s;
-      cursor: pointer;
-    }
-  }
-`
-const Progress = styled.div`
-
-`
-
 export default React.memo(Music)
