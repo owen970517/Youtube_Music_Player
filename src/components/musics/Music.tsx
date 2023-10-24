@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import ReactPlayer from 'react-player/lazy'
 import Record from '../../data/음반.png'
@@ -9,21 +9,33 @@ import { AppDispatch, RootState } from '../../store/store'
 import { useLocation } from 'react-router-dom'
 import MusicControl from './MusicControl'
 import { formDuration } from '../utils/changeTimeFormat'
+import { shuffle } from '../utils/shufflePlay'
 
 const Music = () => {
   const locate = useLocation()
   const dispatch = useDispatch<AppDispatch>()
   const {isPlaying,isMuted,volume,isLoop,isRandom,duration,wantedVideo} = useSelector((state:RootState) => state.video)
   const {filteredVideos } = useSelector((state:RootState) => state.playlist)
+  const nowVideoLists = locate.pathname==='/mylist' ? wantedVideo : filteredVideos
+  const [shuffledIndices, setShuffledIndices] = useState<number[]>([]);
   const videoIndex = useSelector((state:RootState) => state.video.index)
   const videoRef = useRef<ReactPlayer>(null)
-  const nowVideoLists = locate.pathname==='/mylist' ? wantedVideo : filteredVideos
   const handleNextVideo = () => {
     if (videoIndex === nowVideoLists.length -1 ) {
       dispatch(videoActions.currentIndex(0))
     } else if (isRandom) {
-      let randomIndex = Math.floor(Math.random() * nowVideoLists.length)
-      dispatch(videoActions.currentIndex(randomIndex))
+      let nextIndex: number ;
+
+      if(shuffledIndices.length === 0) {
+        const newArray: number[] =[...Array(nowVideoLists.length).keys()];
+        setShuffledIndices(shuffle(newArray));
+        nextIndex= shuffledIndices[0];
+        shuffledIndices.shift();
+      } else {
+        nextIndex= shuffledIndices[0];
+        shuffledIndices.shift();
+      }
+      dispatch(videoActions.currentIndex(nextIndex));
     } else {
       dispatch(videoActions.currentIndex(videoIndex+1))
     }
