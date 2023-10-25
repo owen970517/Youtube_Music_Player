@@ -21,28 +21,25 @@ const Music = () => {
   const videoIndex = useSelector((state:RootState) => state.video.index)
   const videoRef = useRef<ReactPlayer>(null)
   const handleNextVideo = () => {
-    if (videoIndex === nowVideoLists.length -1 ) {
+    if (!isRandom && videoIndex === nowVideoLists.length -1 ) {
       dispatch(videoActions.currentIndex(0))
     } else if (isRandom) {
-      let nextIndex: number ;
-
-      if(shuffledIndices.length === 0) {
-        const newArray: number[] =[...Array(nowVideoLists.length).keys()];
-        setShuffledIndices(shuffle(newArray));
-        nextIndex= shuffledIndices[0];
-        shuffledIndices.shift();
-      } else {
-        nextIndex= shuffledIndices[0];
-        shuffledIndices.shift();
-      }
+      let nextIndex= shuffledIndices[0];
+      shuffledIndices.shift();
       dispatch(videoActions.currentIndex(nextIndex));
     } else {
       dispatch(videoActions.currentIndex(videoIndex+1))
     }
   }
+
   useEffect(() => {
+    if (isRandom && shuffledIndices.length === 0) {
+      const newArray: number[] =[...Array(nowVideoLists.length).keys()];
+      newArray.splice(videoIndex, 1);
+      setShuffledIndices(shuffle(newArray));
+    }
     dispatch(videoActions.setDuration(formDuration(nowVideoLists[videoIndex]?.contentDetails?.duration)))
-  },[duration, videoIndex, nowVideoLists])
+  },[duration, videoIndex, nowVideoLists, isRandom, shuffledIndices.length])
 
   return (
     <MusicContainer>
