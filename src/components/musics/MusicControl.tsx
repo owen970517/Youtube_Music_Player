@@ -16,54 +16,54 @@ import NotLoop from '../../data/loop-none.svg'
 import Random from '../../data/random.svg'
 
 const MusicControl = ({videoRef,handleNextVideo}:{videoRef:React.RefObject<ReactPlayer>,handleNextVideo:() => void}) => {
-    const dispatch = useDispatch<AppDispatch>()
-    const [isHovered, setIsHovered] = useState(false);
-    const {isPlaying,isMuted,volume,isLoop,elapsedTime,duration} = useSelector((state:RootState) => state.video)
-    const videoIndex = useSelector((state:RootState) => state.video.index)
-    const totalTime = videoRef?.current?.getDuration() || 0
-    let nowTime = formatElapsed(elapsedTime)
-    const togglePlaying = () => {
-      dispatch(videoActions.setIsPlaying())
+  const dispatch = useDispatch<AppDispatch>()
+  const [isHovered, setIsHovered] = useState(false);
+  const {isPlaying,isMuted,volume,isLoop,elapsedTime,duration} = useSelector((state:RootState) => state.video)
+  const videoIndex = useSelector((state:RootState) => state.video.index)
+  const totalTime = videoRef?.current?.getDuration() || 0
+  let nowTime = formatElapsed(elapsedTime)
+  const togglePlaying = () => {
+    dispatch(videoActions.setIsPlaying())
+  }
+  const onVolumeChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseInt(e.target.value)/100
+    dispatch(videoActions.setVolume(newValue))
+  }
+  const handlePrevVideo = () => {
+    if (videoIndex > 0) {
+      dispatch(videoActions.currentIndex(videoIndex-1))
     }
-    const onVolumeChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = parseInt(e.target.value)/100
-      dispatch(videoActions.setVolume(newValue))
-    }
-    const handlePrevVideo = () => {
-      if (videoIndex > 0) {
-        dispatch(videoActions.currentIndex(videoIndex-1))
-      }
-    }
-    const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
-      const newElapsedTime = parseInt(e.currentTarget.value);
-      dispatch(videoActions.setElapsedTime(newElapsedTime));
-      videoRef.current?.seekTo(newElapsedTime);
-    };
-    const onMutedToggle = () => {
-      dispatch(videoActions.setIsMuted(null))
-    }
-    const onToggleLoop = () => {
-      dispatch(videoActions.setIsLoop())
-    }
-    const onRandomToggle = () => {
-      dispatch(videoActions.setIsRandom())
-    }
+  }
+  const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
+    const newElapsedTime = parseInt(e.currentTarget.value);
+    dispatch(videoActions.setElapsedTime(newElapsedTime));
+    videoRef.current?.seekTo(newElapsedTime);
+  };
+  const onMutedToggle = () => {
+    dispatch(videoActions.setIsMuted(null))
+  }
+  const onToggleLoop = () => {
+    dispatch(videoActions.setIsLoop())
+  }
+  const onRandomToggle = () => {
+    dispatch(videoActions.setIsRandom())
+  }
 
   return (
     <ControlContainer>
-        <span>{nowTime} | {duration}</span>
-        <ProgressBar max={totalTime} value={elapsedTime} onChange={handleSeekChange} onClick={handleSeekChange}/>
-        <div style={{display:'flex' , justifyContent : 'center' }}>
-            <img src={Random} alt='random_btn' onClick={onRandomToggle} style={{width :'30px', height : '30px'}}/>
-            <img src={Prev} alt='prev' onClick={handlePrevVideo} style={{width :'30px', height : '30px'}}></img>
-            {isPlaying ? <img src={Pause} alt='pause' style={{width :'30px', height : '30px'}} onClick={togglePlaying}/> : <img src={Play} alt='play' style={{width :'30px', height : '30px'}} onClick={togglePlaying}/>}
-            <img src={Next} alt="next" onClick={handleNextVideo} style={{width :'30px', height : '30px'}}></img>
-            {isLoop ? <img src={Loop} alt='loop' onClick={onToggleLoop} style={{width :'30px', height : '30px'}}/> : <img src={NotLoop} alt='not loop' onClick={onToggleLoop} style={{width :'30px', height : '30px'}}/>}
-            <VolumeControls volume={volume * 100} isMuted={isMuted} isHovered={isHovered} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-                <input type='range' value={isMuted ? 0 : volume * 100} min='0' max='100' onChange={onVolumeChange} step='10'/>
-                {isMuted || volume * 100 === 0 ? <img src={MuteSpeaker} alt='muted' style={{width :'30px', height : '30px'}} onClick={onMutedToggle}/> : <img src={Speaker} alt='speaker' style={{width :'30px', height : '30px'}} onClick={() => onMutedToggle()}/>}
-            </VolumeControls>
-        </div>
+      <span>{nowTime} | {duration}</span>
+      <ProgressBar max={totalTime} value={elapsedTime} onChange={handleSeekChange} onClick={handleSeekChange}/>
+      <div style={{display:'flex' , justifyContent : 'center', cursor:'pointer' }}>
+        <img src={Random} alt='random_btn' onClick={onRandomToggle} style={{width :'30px', height : '30px'}}/>
+        <img src={Prev} alt='prev' onClick={handlePrevVideo} style={{width :'30px', height : '30px'}}></img>
+        {isPlaying ? <img src={Pause} alt='pause' style={{width :'30px', height : '30px'}} onClick={togglePlaying}/> : <img src={Play} alt='play' style={{width :'30px', height : '30px'}} onClick={togglePlaying}/>}
+        <img src={Next} alt="next" onClick={handleNextVideo} style={{width :'30px', height : '30px'}}></img>
+        {isLoop ? <img src={Loop} alt='loop' onClick={onToggleLoop} style={{width :'30px', height : '30px'}}/> : <img src={NotLoop} alt='not loop' onClick={onToggleLoop} style={{width :'30px', height : '30px'}}/>}
+        <VolumeControls volume={volume * 100} isMuted={isMuted} isHovered={isHovered} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+          <input type='range' value={isMuted ? 0 : volume * 100} min='0' max='100' onChange={onVolumeChange} step='10'/>
+          {isMuted || volume * 100 === 0 ? <img src={MuteSpeaker} alt='muted' style={{width :'30px', height : '30px'}} onClick={onMutedToggle}/> : <img src={Speaker} alt='speaker' style={{width :'30px', height : '30px'}} onClick={() => onMutedToggle()}/>}
+        </VolumeControls>
+      </div>
     </ControlContainer>
   )
 }
@@ -141,14 +141,6 @@ const ProgressBar = styled.input.attrs(props => ({
       height :20px;
       background-color:#4CAF50; 
      }
-     
-     /* Firefox */
-     &::-moz-range-thumb {
-       width :20px ;
-       height :20px ;
-       background-color:#4CAF50 ;
-       border-radius :50% ;
-       cursor:pointer ;
-     }
+    
   `;
 export default MusicControl
