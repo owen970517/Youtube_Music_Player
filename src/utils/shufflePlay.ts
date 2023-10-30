@@ -1,7 +1,7 @@
-export const shuffle = (array:number[]):number[] => {
+export const shuffle = (array:number[]) => {
     let currentIndex = array.length;
-    let temporaryValue: number;
-    let randomIndex: number;
+    let temporaryValue;
+    let randomIndex;
   
     while (0 !== currentIndex) {
       randomIndex = Math.floor(Math.random() * currentIndex);
