@@ -8,8 +8,8 @@ import { videoActions } from '../../store/videoSlice'
 import { AppDispatch, RootState } from '../../store/store'
 import { useLocation } from 'react-router-dom'
 import MusicControl from './MusicControl'
-import { formDuration } from '../utils/changeTimeFormat'
-import { shuffle } from '../utils/shufflePlay'
+import { formDuration } from '../../utils/changeTimeFormat'
+import { shuffle } from '../../utils/shufflePlay'
 
 const Music = () => {
   const locate = useLocation()
