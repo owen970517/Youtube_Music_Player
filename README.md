@@ -79,3 +79,40 @@
     <br/>
 
 
+### 2. 랜덤 재생 시 같은 곡이 또 재생되는 현상 발생 
+
+- **원인**
+    - 매번 math.random을 사용해서 0 ~ 전체 길이 사이에서 랜덤한 값을 뽑았기 때문에 같은 곡이 또 재생되었음
+
+- **해결 방법**
+    - 랜덤 재생 시 랜덤으로 배열을 만든 후 앞에서 부터 차례로 재생하도록 구현
+
+    - 랜덤 배열 만드는 코드 
+    <details>
+      <summary><b>👈코드 보기</b></summary>
+        <div markdown="1">
+            <ul>
+                https://github.com/owen970517/Youtube_Music_Player/blob/6c5811ec3af9f6529987a60566bf46dee140d179/src/utils/shufflePlay.ts#L1-L16
+            </ul>
+        </div>
+    </details>
+
+    - 랜덤 배열의 앞에서 부터 차례로 실행되는 코드
+    <details>
+      <summary><b>👈코드 보기</b></summary>
+        <div markdown="1">
+            <ul>
+                https://github.com/owen970517/Youtube_Music_Player/blob/6c5811ec3af9f6529987a60566bf46dee140d179/src/components/musics/Music.tsx#L23-L33
+            </ul>
+        </div>
+    </details>
+
+    - 랜덤 재생 중 전부 실행됐을 때 다시 새로운 배열 생성
+    <details>
+      <summary><b>👈코드 보기</b></summary>
+        <div markdown="1">
+            <ul>
+                https://github.com/owen970517/Youtube_Music_Player/blob/6c5811ec3af9f6529987a60566bf46dee140d179/src/components/musics/Music.tsx#L35-L42
+            </ul>
+        </div>
+    </details> 
