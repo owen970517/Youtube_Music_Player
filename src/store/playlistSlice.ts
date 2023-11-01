@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IVideo } from "../type/videoProps";
+import { IVideo } from "../types/videoProps";
 import moment from "moment";
 
 const API_KEY = process.env.REACT_APP_API_KEY;

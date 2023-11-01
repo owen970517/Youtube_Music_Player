@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IVideo } from '../type/videoProps';
+import { IVideo } from '../types/videoProps';
 
 interface IVideoProps {
     selectedVideo? : IVideo
