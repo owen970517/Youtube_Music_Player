@@ -1,31 +1,30 @@
-import React, { useCallback, useRef } from 'react'
-import {useDispatch, useSelector } from 'react-redux'
+import React, { useRef } from 'react'
+import {useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import VideoItem from './MusicItem'
-import { AppDispatch, RootState } from 'src/store/store'
+import MusicItem from './MusicItem'
+import { AppDispatch } from 'src/store/store'
 import { playlistActions } from 'src/store/playlistSlice'
 import { videoActions } from 'src/store/videoSlice'
-import { IVideo } from 'src/type/videoProps'
+import { IVideo } from 'src/types/videoProps'
 import { Members } from 'src/constants/member'
 import { useLocation } from 'react-router-dom'
+import { usePlaylists } from 'src/hooks/usePlaylists'
 
 const MusicLists = () => {
-  const locate = useLocation()
+  const nowPlaylists = usePlaylists();
+  const locate = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const listsRef = useRef<HTMLUListElement>(null);
-  const {wantedVideo } = useSelector((state:RootState) => state.video)
-  const {filteredVideos}  = useSelector((state:RootState) => state.playlist);
-  const nowVideoLists = locate.pathname==='/mylist' ? wantedVideo : filteredVideos
-  const handleFilterClick = useCallback((value: string , altValue?:string) => {
+  const handleFilterClick = (value: string , altValue?:string) => {
     if (listsRef.current) { 
       listsRef.current.scrollTo(0, 0); 
     }
     dispatch(videoActions.currentIndex(0))
-    const filtered = nowVideoLists.filter((v: IVideo) =>
+    const filtered = nowPlaylists.filter((v: IVideo) =>
       v?.snippet.title.includes(value) || v?.snippet.title.includes(altValue!)
     );
     dispatch(playlistActions.setFilteredVideos(filtered));
-  },[]);
+  }
 
   return (
     <Wrapper>
@@ -36,9 +35,9 @@ const MusicLists = () => {
         )}
       </FilterBtn>
       <Lists ref={listsRef}>
-        {nowVideoLists.length <= 0  && <h3>음악이 존재하지 않습니다.</h3>}
-        {nowVideoLists?.map((video: IVideo, index: number) => (
-          <VideoItem video={video} idx={index} key={video?.id} />
+        {nowPlaylists.length <= 0  && <h3>음악이 존재하지 않습니다.</h3>}
+        {nowPlaylists?.map((video: IVideo, index: number) => (
+          <MusicItem video={video} idx={index} key={video?.id} />
         ))}
       </Lists>
     </Wrapper>

@@ -6,22 +6,20 @@ import { useSelector } from 'react-redux/es/hooks/useSelector'
 import { useDispatch } from 'react-redux/es/exports'
 import { videoActions } from '../../store/videoSlice'
 import { AppDispatch, RootState } from '../../store/store'
-import { useLocation } from 'react-router-dom'
 import MusicControl from './MusicControl'
 import { formDuration } from '../../utils/changeTimeFormat'
 import { shuffle } from '../../utils/shufflePlay'
+import { usePlaylists } from 'src/hooks/usePlaylists'
 
 const Music = () => {
-  const locate = useLocation()
   const dispatch = useDispatch<AppDispatch>()
-  const {isPlaying,isMuted,volume,isLoop,isRandom,duration,wantedVideo} = useSelector((state:RootState) => state.video)
-  const {filteredVideos } = useSelector((state:RootState) => state.playlist)
-  const nowVideoLists = locate.pathname==='/mylist' ? wantedVideo : filteredVideos
+  const nowPlaylists = usePlaylists();
+  const {isPlaying,isMuted,volume,isLoop,isRandom,duration} = useSelector((state:RootState) => state.video)
   const [shuffledIndices, setShuffledIndices] = useState<number[]>([]);
   const videoIndex = useSelector((state:RootState) => state.video.index)
   const videoRef = useRef<ReactPlayer>(null)
   const handleNextVideo = () => {
-    if (!isRandom && videoIndex === nowVideoLists.length -1 ) {
+    if (!isRandom && videoIndex === nowPlaylists.length -1 ) {
       dispatch(videoActions.currentIndex(0))
     } else if (isRandom) {
       let nextIndex= shuffledIndices[0];
@@ -34,19 +32,19 @@ const Music = () => {
 
   useEffect(() => {
     if (isRandom && shuffledIndices.length === 0) {
-      const newArray: number[] =[...Array(nowVideoLists.length).keys()];
+      const newArray: number[] =[...Array(nowPlaylists.length).keys()];
       newArray.splice(videoIndex, 1);
       setShuffledIndices(shuffle(newArray));
     }
-    dispatch(videoActions.setDuration(formDuration(nowVideoLists[videoIndex]?.contentDetails?.duration)))
-  },[duration, videoIndex, nowVideoLists, isRandom, shuffledIndices.length])
+    dispatch(videoActions.setDuration(formDuration(nowPlaylists[videoIndex]?.contentDetails?.duration)))
+  },[duration, videoIndex, nowPlaylists, isRandom, shuffledIndices.length])
 
   return (
     <MusicContainer>
-      <Thumbnails src={nowVideoLists[videoIndex]?.snippet.thumbnails.medium.url || Record} alt='thumbnails'/>
+      <Thumbnails src={nowPlaylists[videoIndex]?.snippet.thumbnails.medium.url || Record} alt='thumbnails'/>
       <ReactPlayer 
         ref={videoRef}
-        url={`https://www.youtube.com/watch?v=${nowVideoLists[videoIndex]?.id}`} 
+        url={`https://www.youtube.com/watch?v=${nowPlaylists[videoIndex]?.id}`} 
         volume={volume}
         loop={isLoop}
         muted={isMuted}
