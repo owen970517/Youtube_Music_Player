@@ -85,7 +85,6 @@ const VolumeControls = styled.div<{ volume: number; isMuted: boolean; isHovered:
     transform: rotate(-90deg);
     position: absolute;
     top:-70px;
-    -webkit-appearance: none;
     background: #d9d9d9;
     outline: none;
     opacity: 0.7;

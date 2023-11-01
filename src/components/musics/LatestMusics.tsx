@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import NextBtn from '../../data/nextbtn.png'
 import PrevBtn from '../../data/prevbtn.png'
-import { IVideo } from 'src/type/videoProps'
+import { IVideo } from 'src/types/videoProps'
 import { AppDispatch, RootState } from 'src/store/store';
 import { playlistActions } from 'src/store/playlistSlice';
 export const StyledSlider = styled(Slider)`

@@ -1,14 +1,14 @@
 import React, { useRef } from 'react'
 import {useSelector } from 'react-redux'
 import styled, { css, keyframes } from 'styled-components'
-import { IVideo } from '../type/videoProps'
+import { IVideo } from '../types/videoProps'
 import dayjs from "dayjs"; 
 import duration from 'dayjs/plugin/duration'
 import { RootState } from 'src/store/store';
 dayjs.extend(duration)
 
 const Weekly = () => {
-  const {liveClips,coverVideo} = useSelector((state:RootState) => state.playlist)
+  const {coverVideo} = useSelector((state:RootState) => state.playlist)
   const textRef = useRef<HTMLParagraphElement>(null)
   const isHide = textRef.current?.offsetWidth !== undefined && textRef.current?.offsetWidth < textRef.current?.scrollWidth;
   const formDuration = (value:string) => {

@@ -3,7 +3,7 @@ import React from 'react';
 import styled from "styled-components"
 import { useDispatch, useSelector } from 'react-redux';
 import { getFriaPlaylistInfo, getFriaPlaylists, playlistActions } from '../store/playlistSlice';
-import { IVideo } from '../type/videoProps';
+import { IVideo } from '../types/videoProps';
 import { AppDispatch, RootState } from '../store/store';
 import Weekly from '../components/Weekly';
 

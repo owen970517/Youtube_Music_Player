@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import styled from "styled-components"
-import { IChannel } from "../type/channelProps";
-import { IPages } from "../type/pageProps";
-import { ISearched } from "../type/searchVideoProps";
-import { IVideo } from "../type/videoProps";
+import { IChannel } from "../types/channelProps";
+import { IPages } from "../types/pageProps";
+import { ISearched } from "../types/searchVideoProps";
+import { IVideo } from "../types/videoProps";
 
 function Channel() {
     const API_KEY = process.env.REACT_APP_API_KEY;

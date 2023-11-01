@@ -1,14 +1,20 @@
 import logo from '../data/Tam logo.png'
 import { Link,useLocation } from 'react-router-dom';
-import { IUser } from '../type/userType';
 import styled from 'styled-components';
+import { videoActions } from 'src/store/videoSlice';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 
-function Header({isLogin , userObj}:IUser) {
+function Header() {
+  const dispatch = useDispatch();
   const location = useLocation()
   const isActive = (path:string) => {
     return location.pathname === path ? 'active' : '';
   };
+  useEffect(() => {
+    dispatch(videoActions.currentIndex(0)); // Replace with your actual action
+  }, [dispatch,location]);
   return (
     <HeaderDiv>
       <Tab>
@@ -17,26 +23,14 @@ function Header({isLogin , userObj}:IUser) {
         </Link>
       </Tab>
       <Tab>
-        {/* {isLogin ? <Link to='/profile' style={{marginLeft : '10px'}}> <h3>{userObj?.displayName ? userObj.displayName : "유저"}</h3> </Link>: <Link to='/login'>
-          <button>로그인</button>
-        </Link> } */}
         <Link to='/charts' style={{marginRight : '50px'}}>
           <Font className={isActive('/charts')}>CHARTS</Font>
         </Link>
-        <Link to='/cover' style={{marginRight : '50px'}}>
-          <Font className={isActive('/cover')}>COVER</Font>
-        </Link>
-        <Link to='/liveclip' style={{marginRight: '50px'}}>
-          <Font className={isActive('/liveclip')}>LIVE CLIP</Font>
-        </Link>
-        <Link to='/artist' style={{marginRight : '50px'}}>
-          <Font className={isActive('/artist')}>ARTIST</Font>
-        </Link>
-        <Link to='/album' style={{marginRight : '50px'}}>
-          <Font className={isActive('/album')}>ALBUM</Font>
-        </Link>
         <Link to='/playlist' style={{marginRight : '50px'}}>
           <Font className={isActive('/playlist')}>PLAYLIST</Font>
+        </Link>
+        <Link to='/mylist' style={{marginRight : '50px'}}>
+          <Font className={isActive('/mylist')}>MYLIST</Font>
         </Link>
       </Tab>
     </HeaderDiv>
@@ -80,3 +74,7 @@ const Font = styled.p`
   }
 `
 export default Header;
+
+function dispatch(arg0: { payload: any; type: "video/currentIndex"; }) {
+  throw new Error('Function not implemented.');
+}

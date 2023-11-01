@@ -9,8 +9,8 @@ import MusicLists from 'src/components/musics/MusicLists';
 
 const PlayLists = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const {allVideos,filteredVideos} = useSelector((state:RootState) => state.playlist)
-  const {index,wantedVideo} = useSelector((state:RootState)=>state.video)
+  const {filteredVideos} = useSelector((state:RootState) => state.playlist)
+  const {index} = useSelector((state:RootState)=>state.video)
   useEffect(() => {
     dispatch(videoActions.currentIndex(0))
   },[])

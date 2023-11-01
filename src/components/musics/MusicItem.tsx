@@ -1,7 +1,7 @@
 import React, { useCallback} from 'react'
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import styled from 'styled-components';
-import { IVideo } from 'src/type/videoProps';
+import { IVideo } from 'src/types/videoProps';
 import { videoActions } from 'src/store/videoSlice';
 import { RootState } from 'src/store/store';
 import { useLocation } from 'react-router-dom';
@@ -54,10 +54,6 @@ const Video = styled.div`
     background-color: red;
     color : #fff;
   }
-`
-const Thumnail = styled.img`
-  width: 40%;
-  height: 100%;
 `
 const MetaDiv = styled.div`
   display: flex;

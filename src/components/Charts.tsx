@@ -5,8 +5,8 @@ import styled, { keyframes } from 'styled-components'
 import {  playlistActions } from '../store/playlistSlice'
 import { AppDispatch, RootState } from '../store/store'
 import { videoActions } from '../store/videoSlice'
-import { IVideo } from 'src/type/videoProps'
-import dayjs from 'dayjs'
+import { IVideo } from 'src/types/videoProps'
+import { formDuration } from 'src/utils/changeTimeFormat'
 
 const Charts = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -14,18 +14,11 @@ const Charts = () => {
   const {coverVideo,allVideos,sort} = useSelector((state:RootState) => state.playlist)
   const textRef = useRef<HTMLParagraphElement>(null)
   const isHide = textRef.current?.offsetWidth !== undefined && textRef.current?.offsetWidth < textRef.current?.scrollWidth;
-  const formDuration = (value:string) => {
-    const timeDuration = dayjs.duration(value)
-    const minutes = timeDuration.minutes();
-    const seconds = timeDuration.seconds();
-    return `${minutes > 10 ? minutes : `0${minutes}`}:${seconds < 10 ? `0${seconds}` : seconds}`;
-  }
   useEffect(() => {
     dispatch(playlistActions.setAllVideos([ ...coverVideo]))
   },[coverVideo, dispatch])
   const handlePlaylistClick = () => {
     dispatch(videoActions.currentIndex(0))
-
   }
   const handleAllClick = () => {
     dispatch(videoActions.currentIndex(0))
