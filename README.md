@@ -17,6 +17,7 @@
 <img width="600" alt="issueDetail_gif" src="https://github.com/owen970517/pre_onboarding_4th/assets/75247323/9497fd41-cd8a-4a70-98da-ebbd836a06a5" />
 
 | 원하는 플레이리스트 | 
+
 <img width="600" alt="issueDetail_gif" src="https://github.com/owen970517/Youtube_Music_Player/assets/75247323/2250eccb-9d48-443e-b6c5-119abb22a3ec" />
 
 
