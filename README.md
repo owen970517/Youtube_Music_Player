@@ -74,7 +74,7 @@
       <summary><b>👈코드 보기</b></summary>
         <div markdown="1">
             <ul>
-                https://github.com/owen970517/youtube_clone/blob/c15ea24b2a3cbca2fe5624dd5e117c42817ba007/src/components/musics/Music.tsx#L104-L113
+                https://github.com/owen970517/Youtube_Music_Player/blob/c15ea24b2a3cbca2fe5624dd5e117c42817ba007/src/components/musics/Music.tsx#L104-L113
             </ul>
         </div>
     </details>
@@ -93,31 +93,31 @@
     - 랜덤 재생 시 랜덤으로 배열을 만든 후 앞에서 부터 차례로 재생하도록 구현
 
     - 랜덤 배열 만드는 코드 
-    <details>
-      <summary><b>👈코드 보기</b></summary>
-        <div markdown="1">
-            <ul>
-                https://github.com/owen970517/Youtube_Music_Player/blob/6c5811ec3af9f6529987a60566bf46dee140d179/src/utils/shufflePlay.ts#L1-L16
-            </ul>
-        </div>
-    </details>
+        <details>
+        <summary><b>👈코드 보기</b></summary>
+            <div markdown="1">
+                <ul>
+                    https://github.com/owen970517/Youtube_Music_Player/blob/6c5811ec3af9f6529987a60566bf46dee140d179/src/utils/shufflePlay.ts#L1-L16
+                </ul>
+            </div>
+        </details>
 
     - 랜덤 배열의 앞에서 부터 차례로 실행되는 코드
-    <details>
-      <summary><b>👈코드 보기</b></summary>
-        <div markdown="1">
-            <ul>
-                https://github.com/owen970517/Youtube_Music_Player/blob/6c5811ec3af9f6529987a60566bf46dee140d179/src/components/musics/Music.tsx#L23-L33
-            </ul>
-        </div>
-    </details>
+        <details>
+        <summary><b>👈코드 보기</b></summary>
+            <div markdown="1">
+                <ul>
+                    https://github.com/owen970517/Youtube_Music_Player/blob/6c5811ec3af9f6529987a60566bf46dee140d179/src/components/musics/Music.tsx#L23-L33
+                </ul>
+            </div>
+        </details>
 
     - 랜덤 재생 중 전부 실행됐을 때 다시 새로운 배열 생성
-    <details>
-      <summary><b>👈코드 보기</b></summary>
-        <div markdown="1">
-            <ul>
-                https://github.com/owen970517/Youtube_Music_Player/blob/6c5811ec3af9f6529987a60566bf46dee140d179/src/components/musics/Music.tsx#L35-L42
-            </ul>
-        </div>
-    </details> 
+        <details>
+        <summary><b>👈코드 보기</b></summary>
+            <div markdown="1">
+                <ul>
+                    https://github.com/owen970517/Youtube_Music_Player/blob/6c5811ec3af9f6529987a60566bf46dee140d179/src/components/musics/Music.tsx#L35-L42
+                </ul>
+            </div>
+        </details> 
