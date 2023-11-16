@@ -9,6 +9,7 @@ import Weekly from '../components/Weekly';
 
 import HomeImg from '../data/main.png'
 import LatestMusics from 'src/components/musics/LatestMusics';
+import Charts from 'src/components/Charts';
 
 function Home() {
   const dispatch = useDispatch<AppDispatch>()
@@ -37,7 +38,7 @@ function Home() {
       <ImgWrapper>
         <Img src={HomeImg} alt='bgimg'/>
       </ImgWrapper>
-      <Weekly/> 
+      <Charts/> 
       <LatestMusics/> 
     </Main>  
   )
