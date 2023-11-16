@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import duration from 'dayjs/plugin/duration';
+dayjs.extend(duration);
 
 export const formDuration = (value:string) => {
     const timeDuration = dayjs.duration(value);
