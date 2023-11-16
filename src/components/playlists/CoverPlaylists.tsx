@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { getFriaPlaylistInfo, getFriaPlaylists, playlistActions } from '../../store/playlistSlice'
 import { AppDispatch, RootState } from '../../store/store'
 import { videoActions } from '../../store/videoSlice'
-import { IVideo } from '../../type/videoProps'
+import { IVideo } from '../../types/videoProps'
 import Music from 'src/components/musics/Music'
 import MusicLists from 'src/components/musics/MusicLists'
 

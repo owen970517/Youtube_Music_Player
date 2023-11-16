@@ -85,11 +85,13 @@ const VolumeControls = styled.div<{ volume: number; isMuted: boolean; isHovered:
     transform: rotate(-90deg);
     position: absolute;
     top:-70px;
+    -webkit-appearance: none;
     background: #d9d9d9;
     outline: none;
     opacity: 0.7;
     transition: opacity 0.2s;
-
+    border-radius: 20px;
+    
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -115,9 +117,9 @@ const VolumeControls = styled.div<{ volume: number; isMuted: boolean; isHovered:
           ? `linear-gradient(to right, red ${props.volume}%, rgba(229, 231, 235, 0.5)
         ${props.volume}% 100%)`
           : "#E5E7EB"};
-      border-radius: 20px;
       transition: all 0.5s;
-      cursor: pointer;
+      cursor: pointer;  
+      border-radius : 20px;
     }
   }
 `
