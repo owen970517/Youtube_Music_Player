@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom"
 import Home from "./Home"
 import Channel from "./Channel"
 import Charts from "../components/Charts"
-import DailyCharts from "src/components/DailyCharts"
 import PlayLists from "src/components/playlists/PlayLists"
 import CoverPlaylists from "src/components/playlists/CoverPlaylists"
 
@@ -16,7 +15,6 @@ const Page:React.FC = () =>{
             <Route path='/charts' element={<Charts/>}/>
             <Route path='/cover' element={<CoverPlaylists/>}/>
             <Route path='/mylist' element={<PlayLists/>}/>
-            <Route path='/artist' element={<DailyCharts/>}/>
         </Routes>
     )
 }

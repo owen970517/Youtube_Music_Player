@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import {  playlistActions } from '../store/playlistSlice'
 import { AppDispatch, RootState } from '../store/store'
 import { videoActions } from '../store/videoSlice'
