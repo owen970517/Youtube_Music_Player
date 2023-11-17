@@ -3,13 +3,11 @@ import React from 'react';
 import styled from "styled-components"
 import { useDispatch, useSelector } from 'react-redux';
 import { getFriaPlaylistInfo, getFriaPlaylists, playlistActions } from '../store/playlistSlice';
-import { IVideo } from '../types/videoProps';
 import { AppDispatch, RootState } from '../store/store';
-import Weekly from '../components/Weekly';
-
 import HomeImg from '../data/main.png'
 import LatestMusics from 'src/components/musics/LatestMusics';
 import Charts from 'src/components/Charts';
+import { IVideo } from 'src/types/videoProps';
 
 function Home() {
   const dispatch = useDispatch<AppDispatch>()

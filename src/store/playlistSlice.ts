@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IVideo } from "../types/videoProps";
 import moment from "moment";
+import { IVideo } from "src/types/videoProps";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 // PLR2_QUSqS6X0vTlLq8R-eDSA7Ea1hpsWr
 const playlistFria = 'PLT84I6XdVQ8W3cAOf-qSDP29hJs08s5CI'
 // const liveclip = 'PLBgSCwfdu8IMT2MoCc0qEKAa4Wi2h5_X2'
-const friaplaylistId = 'PLR2_QUSqS6X2FxXxOwq3uBRGj6luUoWBk'
+// const friaplaylistId = 'PLR2_QUSqS6X2FxXxOwq3uBRGj6luUoWBk'
 
 export const getFriaPlaylists = createAsyncThunk('get/friaPlaylists',
     async (_, { rejectWithValue }) => {

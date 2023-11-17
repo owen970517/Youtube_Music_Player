@@ -2,30 +2,45 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store/store'
 import { videoActions } from '../../store/videoSlice'
-import { IVideo } from '../../type/videoProps'
 import Music from './Music'
-import MusicItem from './MusicItem'
-
+import styled from 'styled-components'
+import MusicLists from './MusicLists'
 
 const SelectedMusics = () => {
   const dispatch = useDispatch<AppDispatch>()
   const {wantedVideo } = useSelector((state:RootState) => state.video)
   const videoIndex = useSelector((state:RootState)=>state.video.index)
-  useEffect(() => {
-    dispatch(videoActions.setSelectedVideo(wantedVideo[videoIndex]))
-  },[dispatch, videoIndex, wantedVideo])
+
   return (
-    <>
+    <Wrapper>
       <Music/>
-      {wantedVideo?.map((video:IVideo,index:number) => (
-        <MusicItem
-            video={video}
-            idx ={index}
-            key={video.id}
-        />
-      ))}
-    </>
+      <MusicLists/>
+    </Wrapper>
   )
 }
+
+const SelectedContainer = styled.ul`
+  display: flex;
+  flex-direction: column;
+  padding : 10px;
+  height : 400px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+      border-radius: 6px;
+      background-color: rgba(255,255,255,0.4);
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0,0,0,0.3);
+      border-radius:6px;
+    }
+`
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 export default SelectedMusics
