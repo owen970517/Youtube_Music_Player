@@ -14,11 +14,12 @@ import Next from '../../data/next.svg'
 import Loop from '../../data/loop-69.svg'
 import NotLoop from '../../data/loop-none.svg'
 import Random from '../../data/random.svg'
+import nonRandom from '../../data/nonRandom.svg'
 
 const MusicControl = ({videoRef,handleNextVideo}:{videoRef:React.RefObject<ReactPlayer>,handleNextVideo:() => void}) => {
   const dispatch = useDispatch<AppDispatch>()
   const [isHovered, setIsHovered] = useState(false);
-  const {isPlaying,isMuted,volume,isLoop,elapsedTime,duration} = useSelector((state:RootState) => state.video)
+  const {isPlaying,isMuted,volume,isLoop,elapsedTime,duration,isRandom} = useSelector((state:RootState) => state.video)
   const videoIndex = useSelector((state:RootState) => state.video.index)
   const totalTime = videoRef?.current?.getDuration() || 0
   let nowTime = formatElapsed(elapsedTime)
@@ -54,7 +55,7 @@ const MusicControl = ({videoRef,handleNextVideo}:{videoRef:React.RefObject<React
       <span>{nowTime} | {duration}</span>
       <ProgressBar max={totalTime} value={elapsedTime} onChange={handleSeekChange} onClick={handleSeekChange}/>
       <div style={{display:'flex' , justifyContent : 'center', cursor:'pointer' }}>
-        <img src={Random} alt='random_btn' onClick={onRandomToggle} style={{width :'30px', height : '30px'}}/>
+        {isRandom ? <img src={Random} alt='random_btn' onClick={onRandomToggle} style={{width :'30px', height : '30px'}}/> : <img src={nonRandom} alt='random_btn' onClick={onRandomToggle} style={{width :'30px', height : '30px'}}/>}
         <img src={Prev} alt='prev' onClick={handlePrevVideo} style={{width :'30px', height : '30px'}}></img>
         {isPlaying ? <img src={Pause} alt='pause' style={{width :'30px', height : '30px'}} onClick={togglePlaying}/> : <img src={Play} alt='play' style={{width :'30px', height : '30px'}} onClick={togglePlaying}/>}
         <img src={Next} alt="next" onClick={handleNextVideo} style={{width :'30px', height : '30px'}}></img>
