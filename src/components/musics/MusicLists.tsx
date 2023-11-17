@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
-import {useDispatch } from 'react-redux'
+import {useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import MusicItem from './MusicItem'
-import { AppDispatch } from 'src/store/store'
+import { AppDispatch, RootState } from 'src/store/store'
 import { playlistActions } from 'src/store/playlistSlice'
 import { videoActions } from 'src/store/videoSlice'
 import { IVideo } from 'src/types/videoProps'
@@ -12,6 +12,7 @@ import { usePlaylists } from 'src/hooks/usePlaylists'
 
 const MusicLists = () => {
   const nowPlaylists = usePlaylists();
+  const {allVideos} = useSelector((state:RootState) => state.playlist)
   const locate = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const listsRef = useRef<HTMLUListElement>(null);
@@ -20,12 +21,11 @@ const MusicLists = () => {
       listsRef.current.scrollTo(0, 0); 
     }
     dispatch(videoActions.currentIndex(0))
-    const filtered = nowPlaylists.filter((v: IVideo) =>
+    const filtered = allVideos.filter((v: IVideo) =>
       v?.snippet.title.includes(value) || v?.snippet.title.includes(altValue!)
     );
     dispatch(playlistActions.setFilteredVideos(filtered));
   }
-
   return (
     <Wrapper>
       <Title>Playlist</Title>
@@ -85,6 +85,7 @@ const MemberBtn = styled.button`
   padding: 10px;
   border-radius: 10px;
   border: none;
+  cursor: pointer;
 `
 
 export default React.memo(MusicLists)
