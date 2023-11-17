@@ -1,14 +1,14 @@
 import React, { useRef } from 'react'
 import {useSelector } from 'react-redux'
 import styled, { css, keyframes } from 'styled-components'
-import { IVideo } from '../types/videoProps'
 import dayjs from "dayjs"; 
 import duration from 'dayjs/plugin/duration'
 import { RootState } from 'src/store/store';
+import { IVideo } from 'src/types/videoProps';
 dayjs.extend(duration)
 
 const Weekly = () => {
-  const {coverVideo} = useSelector((state:RootState) => state.playlist)
+  const {allVideos} = useSelector((state:RootState) => state.playlist)
   const textRef = useRef<HTMLParagraphElement>(null)
   const isHide = textRef.current?.offsetWidth !== undefined && textRef.current?.offsetWidth < textRef.current?.scrollWidth;
   const formDuration = (value:string) => {
@@ -27,7 +27,7 @@ const Weekly = () => {
           <h3>Plays</h3>
         </ListsHeader>
         <Lists>
-          {coverVideo?.map((video:IVideo,index:number) => {
+          {allVideos?.map((video:IVideo,index:number) => {
               return ( 
               <Video key={video.etag}>
                 {index+1 < 10 ? `0${index+1}` : `${index+1}`}

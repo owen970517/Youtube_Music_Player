@@ -5,9 +5,10 @@ import styled from 'styled-components'
 import { getFriaPlaylistInfo, getFriaPlaylists, playlistActions } from '../../store/playlistSlice'
 import { AppDispatch, RootState } from '../../store/store'
 import { videoActions } from '../../store/videoSlice'
-import { IVideo } from '../../types/videoProps'
+
 import Music from 'src/components/musics/Music'
 import MusicLists from 'src/components/musics/MusicLists'
+import { IVideo } from 'src/types/videoProps'
 
 const CoverPlaylists = () => {
   const dispatch = useDispatch<AppDispatch>()

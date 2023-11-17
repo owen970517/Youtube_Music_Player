@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components"
 import { IChannel } from "../types/channelProps";
 import { IPages } from "../types/pageProps";
-import { ISearched } from "../types/searchVideoProps";
-import { IVideo } from "../types/videoProps";
+import { ISearched } from "src/types/searchVideoProps";
+import { IVideo } from "src/types/videoProps";
 
 function Channel() {
     const API_KEY = process.env.REACT_APP_API_KEY;
