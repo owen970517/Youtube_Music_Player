@@ -8,13 +8,11 @@ import { IVideo } from './types/videoProps';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from './store/store';
+import { formatIdString } from './utils/formatIdString';
 
 const App:React.FC= () => {
   const dispatch = useDispatch<AppDispatch>()
   const {allData,coverVideo} = useSelector((state:RootState) => state.playlist)
-  const formatIdString = (list:IVideo[]) => {
-    return list?.map((x) => "&id=" + x.snippet.resourceId.videoId).join("");
-  }
   const friaPlaylistId = formatIdString(allData)
 
   useEffect(()=> {
