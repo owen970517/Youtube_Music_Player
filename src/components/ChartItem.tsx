@@ -1,6 +1,7 @@
 import React, { useCallback, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
+import SkeletonUI from 'src/layout/SkeletonUI'
 import { RootState } from 'src/store/store'
 import { videoActions } from 'src/store/videoSlice'
 import { IVideo } from 'src/types/videoProps'
@@ -27,20 +28,23 @@ const ChartItem = () => {
   );
   return (
     <>
-      {allVideos?.map((video:IVideo,index:number) => {
-        return ( 
-          <Video key={video.etag}>
-          {isCharts && <input type='checkbox' onChange={(e) => handleCheckBtn(e,index)} checked={wantedVideo?.map((video:any) => video?.id).includes(video?.id) ? true : false}/>}
-          {index+1 < 10 ? `0${index+1}` : `${index+1}`}
-          <Thumnail src={video?.snippet?.thumbnails?.medium.url} alt="video thumbnail"/>
-          <Title isHide={isHide}>
-              <p ref={textRef}>{video.snippet.title}</p>
-          </Title>
-          <p>{formDuration(video.contentDetails.duration)}</p>
-          <p>{video.statistics.viewCount}</p>
-          </Video>
-        )
-      })}
+      {allVideos.length > 0 ?
+        allVideos?.map((video:IVideo,index:number) => {
+          return ( 
+            <Video key={video.etag}>
+              {isCharts && <input type='checkbox' onChange={(e) => handleCheckBtn(e,index)} checked={wantedVideo?.map((video:any) => video?.id).includes(video?.id) ? true : false}/>}
+              {index+1 < 10 ? `0${index+1}` : `${index+1}`}
+              <Thumnail src={video?.snippet?.thumbnails?.medium.url} alt="video thumbnail"/>
+              <Title isHide={isHide}>
+                <p ref={textRef}>{video.snippet.title}</p>
+              </Title>
+              <p>{formDuration(video.contentDetails.duration)}</p>
+              <p>{video.statistics.viewCount}</p>
+            </Video>
+          )
+        }) : 
+          Array.from({length: 10}).map((_, index) => <SkeletonUI key={index} />)
+      }
     </>
   )
 }
@@ -63,7 +67,6 @@ const scrollText = keyframes`
     transform: translateX(-100%);
   }
 `
-
 const Title = styled.div<{isHide :boolean}>`
   width: 45%;
   overflow: hidden;
@@ -74,7 +77,6 @@ const Title = styled.div<{isHide :boolean}>`
     }
   }
 `
-
 const Thumnail = styled.img`
   width: 10%;
   height: 50px;
