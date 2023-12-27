@@ -1,6 +1,5 @@
-import { BrowserRouter} from 'react-router-dom';
+import { Outlet} from 'react-router-dom';
 import './App.css';
-import Page from './pages/Page';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
 import { getFriaPlaylistInfo, getFriaPlaylists, playlistActions } from './store/playlistSlice';
@@ -30,11 +29,11 @@ const App:React.FC= () => {
     dispatch(playlistActions.setFilteredVideos(list))
   },[coverVideo, dispatch])
   return (
-    <BrowserRouter>
+    <>
       <Header />
-      <Page />
+      <Outlet />
       <Footer/>
-    </BrowserRouter>
+    </>
   );
 }
 
