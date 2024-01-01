@@ -3,6 +3,7 @@ import styled from "styled-components"
 import HomeImg from '../data/main.png'
 import LatestMusics from 'src/components/musics/LatestMusics';
 import Charts from 'src/components/Charts';
+import TopCharts from 'src/components/TopCharts';
 
 function Home() {
   return (
@@ -10,7 +11,7 @@ function Home() {
       <ImgWrapper>
         <Img src={HomeImg} alt='bgimg'/>
       </ImgWrapper>
-      <Charts/> 
+      <TopCharts/>
       <LatestMusics/> 
     </Main>  
   )
