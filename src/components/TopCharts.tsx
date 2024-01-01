@@ -5,6 +5,7 @@ import { IVideo } from 'src/types/videoProps'
 import { formDuration } from 'src/utils/changeTimeFormat'
 import styled, { keyframes } from 'styled-components'
 import MusicInfoHeader from './MusicInfoHeader'
+import Top10SkeletonUI from 'src/layout/Top10SkeletonUI'
 
 const TopCharts = () => {
     const { coverVideo } = useSelector((state:RootState) => state.playlist)
@@ -18,17 +19,19 @@ const TopCharts = () => {
         </Header>
         <Wrapper>
             <MusicInfoHeader/>
-            {top10Charts.map((chart: IVideo,idx:number) => (
-                <Chart key={chart.id}>
-                <Rank>{idx+1 < 10 ? `0${idx+1}` : `${idx+1}`}</Rank>
-                <Thumbnail src={chart?.snippet?.thumbnails?.medium.url} alt="thumbnail" />
-                <Title isHide={isHide}>
-                    <p ref={textRef}>{chart.snippet.title}</p>
-                </Title>
-                <Duration>{formDuration(chart.contentDetails.duration)}</Duration>
-                <ViewCount>{chart.statistics.viewCount}</ViewCount>
-                </Chart>
-            ))}
+            {top10Charts.length > 0 ? top10Charts.map((chart: IVideo,idx:number) => {
+                return (
+                    <Chart key={chart.id}>
+                        <Rank>{idx+1 < 10 ? `0${idx+1}` : `${idx+1}`}</Rank>
+                        <Thumbnail src={chart?.snippet?.thumbnails?.medium.url} alt="thumbnail" />
+                        <Title isHide={isHide}>
+                            <p ref={textRef}>{chart.snippet.title}</p>
+                        </Title>
+                        <Duration>{formDuration(chart.contentDetails.duration)}</Duration>
+                        <ViewCount>{chart.statistics.viewCount}</ViewCount>
+                    </Chart>
+                )
+            }) : Array.from({length: 10}).map((_, index) => <Top10SkeletonUI key={index} />)}
         </Wrapper>
     </>
   )
