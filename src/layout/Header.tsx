@@ -75,6 +75,3 @@ const Font = styled.p`
 `
 export default Header;
 
-function dispatch(arg0: { payload: any; type: "video/currentIndex"; }) {
-  throw new Error('Function not implemented.');
-}
