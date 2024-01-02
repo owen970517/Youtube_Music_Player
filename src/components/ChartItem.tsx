@@ -33,7 +33,7 @@ const ChartItem = () => {
           return ( 
             <Video key={video.etag}>
               {isCharts && <input type='checkbox' onChange={(e) => handleCheckBtn(e,index)} checked={wantedVideo?.map((video:any) => video?.id).includes(video?.id) ? true : false}/>}
-              {index+1 < 10 ? `0${index+1}` : `${index+1}`}
+              {index+1}
               <Thumnail src={video?.snippet?.thumbnails?.medium.url} alt="video thumbnail"/>
               <Title isHide={isHide}>
                 <p ref={textRef}>{video.snippet.title}</p>
@@ -48,16 +48,7 @@ const ChartItem = () => {
     </>
   )
 }
-const Video = styled.div`
-  width : 80%;
-  display: flex;
-  justify-content: space-around;
-  margin : 0 auto;
-  align-items: center;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  box-shadow: 3px 3px 5px 0px rgba(191, 191, 191, 0.53);
-`
+
 const scrollText = keyframes`
   0% {
     transform: translateX(0);
@@ -67,21 +58,33 @@ const scrollText = keyframes`
     transform: translateX(-100%);
   }
 `
+const Video = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+`
+
 const Title = styled.div<{isHide :boolean}>`
   width: 45%;
   overflow: hidden;
   white-space: nowrap;
+  color: #495057;
   &:hover {
     > p {
       animation:  ${scrollText} 7s linear infinite;
     }
   }
 `
-const Thumnail = styled.img`
-  width: 10%;
-  height: 50px;
-  border-radius: 5px;
-  z-index: 0;
-`
 
+const Thumnail = styled.img`
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+`
 export default ChartItem

@@ -4,10 +4,10 @@ import styled from 'styled-components'
 const MusicInfoHeader = () => {
   return (
     <InfoHeader>
-      <h3 style={{marginLeft:'225px'}}>#</h3>
-      <h3 style={{marginLeft:'250px'}}>Track/Artist</h3>
-      <h3 style={{marginLeft:'350px'}}>Time</h3>
-      <h3 style={{marginLeft:'32px'}}>Views</h3>
+      <h3 style={{marginLeft:'70px'}}>#</h3>
+      <h3 style={{marginLeft:'300px'}}>Track/Artist</h3>
+      <h3 style={{marginLeft:'450px'}}>Time</h3>
+      <h3 style={{marginLeft:'70px'}}>Views</h3>
     </InfoHeader>
   )
 }

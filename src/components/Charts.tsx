@@ -34,9 +34,7 @@ const Charts = () => {
       <Content>
         <MusicInfoHeader/>
         <ChartLists>
-          <List>
-            <ChartItem/>
-          </List>
+          <ChartItem/>
         </ChartLists>
       </Content>
     </>
@@ -67,28 +65,22 @@ const Content = styled.section`
 `
 const ChartLists = styled.div`
   width: 100%;
-  height : 450px;
+  height: 500px;
   border-radius: 5px;
   background-color: white;
-  overflow-y: scroll;
+  margin : 0 auto;
+  overflow-y: auto;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   &::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
-      border-radius: 6px;
-      background-color: rgba(255,255,255,0.4);
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(0,0,0,0.3);
-      border-radius:6px;
-    }
-`
-const List = styled.ul`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 6px;
+    background-color: rgba(255,255,255,0.4);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.3);
+    border-radius:6px;
+  }
 `
 
 export default Charts

@@ -13,7 +13,6 @@ const SkeletonUI = () => {
   )
 }
 const SkeletonWrapper = styled.div`
-  width : 80%;
   display: flex;
   justify-content: space-around;
   margin : 0 auto;
@@ -51,8 +50,8 @@ const SkeletonIdx = styled(LoadingSkeleton)`
 `;
 
 const SkeletonThumb = styled(LoadingSkeleton)`
-  width: 10%;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   animation: ${shimmer} 1.5s infinite linear;
 `;
 
@@ -63,13 +62,13 @@ const SkeletonTitle = styled(LoadingSkeleton)`
 `;
 
 const SkeletonTime = styled(LoadingSkeleton)`
-  width: 7%;
+  width: 5%;
   height: 20px;
   animation: ${shimmer} 1.5s infinite linear;
 `;
 
 const SkeletonViews = styled(LoadingSkeleton)`
-  width: 10%;
+  width: 7%;
   height: 20px;
   animation: ${shimmer} 1.5s infinite linear;
 `;

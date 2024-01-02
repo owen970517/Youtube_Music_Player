@@ -14,25 +14,25 @@ const TopCharts = () => {
     const isHide = textRef.current?.offsetWidth !== undefined && textRef.current?.offsetWidth < textRef.current?.scrollWidth;
   return (
     <>
-        <Header>
-            <h1>Charts Top 10</h1>
-        </Header>
-        <Wrapper>
-            <MusicInfoHeader/>
-            {top10Charts.length > 0 ? top10Charts.map((chart: IVideo,idx:number) => {
-                return (
-                    <Chart key={chart.id}>
-                        <Rank>{idx+1 < 10 ? `0${idx+1}` : `${idx+1}`}</Rank>
-                        <Thumbnail src={chart?.snippet?.thumbnails?.medium.url} alt="thumbnail" />
-                        <Title isHide={isHide}>
-                            <p ref={textRef}>{chart.snippet.title}</p>
-                        </Title>
-                        <Duration>{formDuration(chart.contentDetails.duration)}</Duration>
-                        <ViewCount>{chart.statistics.viewCount}</ViewCount>
-                    </Chart>
-                )
-            }) : Array.from({length: 10}).map((_, index) => <Top10SkeletonUI key={index} />)}
-        </Wrapper>
+      <Header>
+        <h1>Charts Top 10</h1>
+      </Header>
+      <Wrapper>
+          <MusicInfoHeader/>
+          {top10Charts.length > 0 ? top10Charts.map((chart: IVideo,idx:number) => {
+              return (
+                  <Chart key={chart.id}>
+                      <Rank>{idx+1}</Rank>
+                      <Thumbnail src={chart?.snippet?.thumbnails?.medium.url} alt="thumbnail" />
+                      <Title isHide={isHide}>
+                        <p ref={textRef}>{chart.snippet.title}</p>
+                      </Title>
+                      <p>{formDuration(chart.contentDetails.duration)}</p>
+                      <p>{chart.statistics.viewCount}</p>
+                  </Chart>
+              )
+          }) : Array.from({length: 10}).map((_, index) => <Top10SkeletonUI key={index} />)}
+      </Wrapper>
     </>
   )
 }
@@ -47,17 +47,17 @@ const scrollText = keyframes`
   }
 `
 const Header = styled.div`
-    width: 80%;
-    margin: 0 auto;
-    text-align: left;
+  width: 80%;
+  margin: 0 auto;
+  text-align: left;
 `
 
 const Wrapper = styled.div`
-    width: 80%;
-    margin: 0 auto;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+  width: 80%;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
 `
 
 const Chart = styled.div`
@@ -95,14 +95,5 @@ const Title = styled.div<{isHide :boolean}>`
     }
   }
 `
-
-const Duration = styled.p`
-  color: #868e96;
-`;
-
-const ViewCount = styled.p`
-  color: #495057;
-  font-weight: bold;
-`;
 
 export default TopCharts
