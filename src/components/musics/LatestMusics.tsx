@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -48,29 +48,29 @@ const LatestMusics = () => {
     dispatch(playlistActions.setLatestData(sorted_list.slice(0,10)))
   },[allVideos, dispatch])
   return (
-    <>
-      {allVideos &&   
-        <Wrapper>
-          <Head>
-            <h1>New Realeases</h1>
-            <ButtonDiv>
-              <img src={PrevBtn} onClick={prev} style={{marginRight : '20px'}} alt='prev'/>
-              <img src={NextBtn} onClick={next} alt='next'/>
-            </ButtonDiv>
-          </Head>
-          <StyledSlider {...settings} ref={slickRef}>
-            {latestData.map((video:IVideo) => (
-              <VideoDiv key={video.etag}>
-                <Thumnail
-                  src={video.snippet.thumbnails.medium.url}
-                  alt="video thumbnail"
-                />
-              </VideoDiv>
-            ))}
-          </StyledSlider>
-        </Wrapper>   
-      }
-    </>
+    <Wrapper>
+      <Head>
+        <h1>New Realeases</h1>
+        <ButtonDiv>
+          <img src={PrevBtn} onClick={prev} style={{marginRight : '20px'}} alt='prev'/>
+          <img src={NextBtn} onClick={next} alt='next'/>
+        </ButtonDiv>
+      </Head>
+      <StyledSlider {...settings} ref={slickRef}>
+        {latestData.length > 0 ? latestData.map((video:IVideo) => (
+          <VideoDiv key={video.etag}>
+            <Thumnail
+              src={video.snippet.thumbnails.medium.url}
+              alt="video thumbnail"
+            />
+          </VideoDiv>
+        )) : Array.from(new Array(5)).map((_, i) => (
+          <VideoDiv key={i}>
+            <SkeletonThumnail />
+          </VideoDiv>
+        ))}
+      </StyledSlider>
+    </Wrapper>   
   )
 }
 
@@ -103,5 +103,25 @@ const Thumnail = styled.img`
   object-fit: contain;
   flex: none;
 `
+const shimmer = keyframes`
+  0% {
+      opacity: 1;
+  }
+
+  50% {
+      opacity: 0.5;
+  }
+
+  100% {
+      opacity: 1;
+  }
+`;
+
+const SkeletonThumnail = styled.div`
+  width: 100%;
+  height: 120px;
+  background-color: gray;
+  animation: ${shimmer} 1.5s infinite linear;
+`;
 
 export default LatestMusics
