@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from './store/store';
 import { formatIdString } from './utils/formatIdString';
 import { GlobalStyles } from './styles/GlobalStyles';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const App:React.FC= () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -31,10 +32,15 @@ const App:React.FC= () => {
   },[coverVideo, dispatch])
   return (
     <>
-      <GlobalStyles/>
-      <Header />
-      <Outlet />
-      <Footer/>
+      <HelmetProvider>
+        <Helmet>
+          <title>Fria Music</title>
+        </Helmet>
+        <GlobalStyles/>
+        <Header />
+        <Outlet />
+        <Footer/>
+      </HelmetProvider>
     </>
   );
 }
