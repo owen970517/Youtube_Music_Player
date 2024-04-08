@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { formatElapsed } from '../../utils/changeTimeFormat'
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,7 +33,7 @@ const MusicControl = ({videoRef,handleNextVideo}:{videoRef:React.RefObject<React
   const handlePrevVideo = () => {
     if (videoIndex > 0) {
       dispatch(videoActions.currentIndex(videoIndex-1))
-    }
+    } 
   }
   const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
     const newElapsedTime = parseInt(e.currentTarget.value);
@@ -49,7 +49,19 @@ const MusicControl = ({videoRef,handleNextVideo}:{videoRef:React.RefObject<React
   const onRandomToggle = () => {
     dispatch(videoActions.setIsRandom())
   }
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.code === 'Space') {
+        event.preventDefault();
+        dispatch(videoActions.setIsPlaying())
+      }
+    };
 
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [dispatch]);
   return (
     <ControlContainer>
       <span>{nowTime} | {duration}</span>
