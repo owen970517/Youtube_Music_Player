@@ -14,19 +14,18 @@ import { usePlaylists } from 'src/hooks/usePlaylists'
 const Music = () => {
   const dispatch = useDispatch<AppDispatch>()
   const nowPlaylists = usePlaylists();
-  const {isPlaying,isMuted,volume,isLoop,isRandom,duration} = useSelector((state:RootState) => state.video)
-  const [shuffledIndices, setShuffledIndices] = useState<number[]>([]);
+  const {isPlaying,isMuted,volume,isLoop,isRandom,duration,shuffledIndices} = useSelector((state:RootState) => state.video)
   const videoIndex = useSelector((state:RootState) => state.video.index)
   const videoRef = useRef<ReactPlayer>(null)
   const handleNextVideo = () => {
-    if (!isRandom && videoIndex === nowPlaylists.length -1 ) {
-      dispatch(videoActions.currentIndex(0))
-    } else if (isRandom) {
-      let nextIndex= shuffledIndices[0];
-      shuffledIndices.shift();
+    if (!isRandom) {
+      const nextIndex = videoIndex === nowPlaylists.length - 1 ? 0 : videoIndex + 1;
       dispatch(videoActions.currentIndex(nextIndex));
     } else {
-      dispatch(videoActions.currentIndex(videoIndex+1))
+      dispatch(videoActions.addPrevIndex(videoIndex));
+      let nextIndex= shuffledIndices[0];
+      dispatch(videoActions.shiftShuffledIndices());
+      dispatch(videoActions.currentIndex(nextIndex));
     }
   }
 
@@ -34,11 +33,11 @@ const Music = () => {
     if (isRandom && shuffledIndices.length === 0) {
       const newArray: number[] =[...Array(nowPlaylists.length).keys()];
       newArray.splice(videoIndex, 1);
-      setShuffledIndices(shuffle(newArray));
+      dispatch(videoActions.setShuffleIndex(shuffle(newArray)));
+      dispatch(videoActions.initPrevIndex());
     }
     dispatch(videoActions.setDuration(formDuration(nowPlaylists[videoIndex]?.contentDetails?.duration)))
   },[duration, videoIndex, nowPlaylists, isRandom, shuffledIndices.length])
-
   return (
     <MusicContainer>
       <Thumbnails src={nowPlaylists[videoIndex]?.snippet.thumbnails.medium.url || Record} alt='thumbnails'/>

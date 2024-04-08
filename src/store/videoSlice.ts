@@ -6,6 +6,8 @@ interface IVideoProps {
     selectedVideo? : IVideo
     wantedVideo :IVideo[]
     index : number
+    shuffledIndices : number[]
+    prevIndex : number[]
     isPlaying:boolean
     isLoop : boolean
     isMuted : boolean
@@ -19,6 +21,8 @@ interface IVideoProps {
 const initialVideoState:IVideoProps = {
     wantedVideo : [],
     index : 0,
+    shuffledIndices : [],
+    prevIndex : [],
     isPlaying:false,
     isMuted:false,
     isLoop : false,
@@ -33,11 +37,29 @@ const videoSlice = createSlice({
     name : 'video' ,
     initialState :initialVideoState ,
     reducers : {
+        initPrevIndex(state) {
+            state.prevIndex = []
+        },
         setSelectedVideo(state,action) {
             state.selectedVideo = action.payload
         },
+        setShuffleIndex(state,action) {
+            state.shuffledIndices = action.payload
+        },
+        addShuffledIndices(state,action) {
+            state.shuffledIndices = [action.payload,...state.shuffledIndices]
+        },
+        shiftShuffledIndices(state) {
+            state.shuffledIndices.shift()
+        },
         currentIndex(state, action) {
             state.index = action.payload
+        },
+        addPrevIndex(state,action) {
+            state.prevIndex = [action.payload , ...state.prevIndex]
+        },
+        setPrevIndex(state) {
+            state.prevIndex.shift()
         },
         setIsPlaying(state) {
             state.isPlaying = !state.isPlaying

@@ -19,7 +19,7 @@ import nonRandom from '../../data/nonRandom.svg'
 const MusicControl = ({videoRef,handleNextVideo}:{videoRef:React.RefObject<ReactPlayer>,handleNextVideo:() => void}) => {
   const dispatch = useDispatch<AppDispatch>()
   const [isHovered, setIsHovered] = useState(false);
-  const {isPlaying,isMuted,volume,isLoop,elapsedTime,duration,isRandom} = useSelector((state:RootState) => state.video)
+  const {isPlaying,isMuted,volume,isLoop,elapsedTime,duration,isRandom,prevIndex,shuffledIndices} = useSelector((state:RootState) => state.video)
   const videoIndex = useSelector((state:RootState) => state.video.index)
   const totalTime = videoRef?.current?.getDuration() || 0
   let nowTime = formatElapsed(elapsedTime)
@@ -31,9 +31,19 @@ const MusicControl = ({videoRef,handleNextVideo}:{videoRef:React.RefObject<React
     dispatch(videoActions.setVolume(newValue))
   }
   const handlePrevVideo = () => {
-    if (videoIndex > 0) {
+    if (!isRandom && videoIndex > 0) {
       dispatch(videoActions.currentIndex(videoIndex-1))
-    } 
+    } else if (isRandom && prevIndex.length > 0) {
+      if (!shuffledIndices.includes(videoIndex)) {
+        dispatch(videoActions.addShuffledIndices(videoIndex))
+      }
+      let nowIndex = prevIndex[0]
+      dispatch(videoActions.setPrevIndex())
+      dispatch(videoActions.currentIndex(nowIndex))
+      if (nowIndex !== 0) {
+        dispatch(videoActions.addShuffledIndices(nowIndex))
+      }
+    }
   }
   const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
     const newElapsedTime = parseInt(e.currentTarget.value);
