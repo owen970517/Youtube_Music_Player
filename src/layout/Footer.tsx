@@ -12,10 +12,15 @@ const FooterDiv = styled.footer`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  padding: 10px;
 `
 const Img = styled.img`
   width: 90px;
   height: 90px;
+  
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+  }
 `
 export default Footer

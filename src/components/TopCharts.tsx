@@ -15,7 +15,7 @@ const TopCharts = () => {
   return (
     <>
       <Header>
-        <h1>Charts Top 10</h1>
+        <p>Charts Top 10</p>
       </Header>
       <Wrapper>
           <MusicInfoHeader/>
@@ -50,6 +50,12 @@ const Header = styled.div`
   width: 80%;
   margin: 0 auto;
   text-align: left;
+  font-size: 30px;
+  font-weight: 800;
+  @media (max-width: 768px) {
+    font-size: 20px;
+    font-weight: 800;
+  }
 `
 
 const Wrapper = styled.div`

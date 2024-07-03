@@ -50,7 +50,7 @@ const LatestMusics = () => {
   return (
     <Wrapper>
       <Head>
-        <h1>New Realeases</h1>
+        <p>New Realeases</p>
         <ButtonDiv>
           <img src={PrevBtn} onClick={prev} style={{marginRight : '20px'}} alt='prev'/>
           <img src={NextBtn} onClick={next} alt='next'/>
@@ -78,11 +78,16 @@ const Head = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 30px;
+  font-weight: 800;
+  @media (max-width: 768px) {
+    font-size: 20px;
+    font-weight: 800;
+  }
 `
 
 const Wrapper = styled.div`
   width: 80vw;
-  padding : 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -16,8 +16,7 @@ export const GlobalStyles = createGlobalStyle`
     font-weight: medium;
     font-style: normal;
   }
-
-  h1 {
+  p,h1 {
     font-family: 'GmarketSansTTFBold', sans-serif;
   }
   p,h3 {
