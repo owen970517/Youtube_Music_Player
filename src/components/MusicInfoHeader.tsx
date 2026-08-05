@@ -21,13 +21,17 @@ const InfoHeader = styled.div`
   padding: 10px;
 `;
 
-const HeaderItem = styled.h3<{ width: string, mw:string }>`
-  margin-left: ${(props) => props.width};
+const HeaderItem = styled.div<{ width: string, mw: string }>`
+  flex: 1;
+  text-align: center;
   color: #495057;
   font-weight: 700;
+  &:nth-child(2) {
+      flex: 3;
+    }
 
   @media (max-width: 768px) {
-    margin-left: ${(props) => props.mw};
+    width: ${(props) => props.mw};
     font-size: 18px;
   }
 `;
