@@ -13,7 +13,7 @@ const PlayLists = () => {
   const {index} = useSelector((state:RootState)=>state.video)
   useEffect(() => {
     dispatch(videoActions.currentIndex(0))
-  },[])
+  },[dispatch])
   useEffect(() => {
     dispatch(videoActions.setSelectedVideo(filteredVideos[index]))
   },[filteredVideos, dispatch, index])

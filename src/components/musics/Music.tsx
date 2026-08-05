@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import ReactPlayer from 'react-player/lazy'
 import Record from '../../data/음반.png'
@@ -37,7 +37,7 @@ const Music = () => {
       dispatch(videoActions.initPrevIndex());
     }
     dispatch(videoActions.setDuration(formDuration(nowPlaylists[videoIndex]?.contentDetails?.duration)))
-  },[duration, videoIndex, nowPlaylists, isRandom, shuffledIndices.length])
+  },[duration, videoIndex, nowPlaylists, isRandom, shuffledIndices.length, dispatch])
   return (
     <MusicContainer>
       <Thumbnails src={nowPlaylists[videoIndex]?.snippet.thumbnails.medium.url || Record} alt='thumbnails'/>
